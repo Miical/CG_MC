@@ -1,6 +1,7 @@
 ﻿#include <GL/GLUT.h>
 #include <math.h>
 #include "imageloader.h"
+#include "imagesplitter.h"
 
 GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
@@ -137,9 +138,10 @@ void initRendering() {
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
 
-    // Image* image = loadBMP("./img/material.bmp3");
-    Image* image = loadBMP("./img/imag.bmp3");
-    _textureId = loadTexture(image);
+    
+    Image* image = loadBMP("./img/material.bmp3");
+    ImageSplitter splitter(image, 16, 16);
+    _textureId = loadTexture(splitter.getImage(43, 4));
     delete image;
 }
 void init(void) {

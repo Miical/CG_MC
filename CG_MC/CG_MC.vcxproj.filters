@@ -21,16 +21,19 @@
     <ClCompile Include="imageloader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="imagesplitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageloader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imagesplitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="img\imag.bmp3">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="img\material.bmp3">
       <Filter>Resource Files</Filter>
     </None>
