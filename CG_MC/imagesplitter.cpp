@@ -1,7 +1,7 @@
 #include "imagesplitter.h"
 
 ImageSplitter::ImageSplitter(
-	Image* originImg_, int gridHeight_, int gridWidth_): 
+	const Image* originImg_, int gridHeight_, int gridWidth_): 
 		originImg(originImg_), gridHeight(gridHeight_), gridWidth(gridWidth_) {} 
 
 
@@ -22,7 +22,6 @@ Image* ImageSplitter::getImage(int row, int column)const {
 Image* ImageSplitter::getImage(int id)const {
 	return getImage(id / columnCount(), id % columnCount());
 }
-#include <iostream>
 Image* ImageSplitter::getImage(const std::vector<int>& id, bool horizontal)const {
 	char* pixels = new char[id.size() * gridHeight * gridWidth * 3];
 	for (int id_ = 0; id_ < id.size(); id_++) {

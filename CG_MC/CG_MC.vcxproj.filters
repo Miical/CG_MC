@@ -24,12 +24,24 @@
     <ClCompile Include="imagesplitter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="block.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="blocktype.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageloader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imagesplitter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="block.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="blocktype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

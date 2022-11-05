@@ -18,12 +18,12 @@ public:
 	int convertToID(int row, int column)const {
 		return row * columnCount() + column;
 	}
-	ImageSplitter(Image* originImg_, int gridHeight_, int gridWidth_);
+	ImageSplitter(const Image* originImg_, int gridHeight_, int gridWidth_);
 	Image* getImage(int row, int column)const;
 	Image* getImage(int id)const;
 	Image* getImage(const std::vector<int>& id, bool horizontal)const;
 private:
-	Image* originImg; 
+	const Image* originImg; 
 	int gridHeight, gridWidth;
 };
 

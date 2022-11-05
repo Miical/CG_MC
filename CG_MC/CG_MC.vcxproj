@@ -127,11 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="block.cpp" />
+    <ClCompile Include="blocktype.cpp" />
     <ClCompile Include="CG_MC.cpp" />
     <ClCompile Include="imageloader.cpp" />
     <ClCompile Include="imagesplitter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="block.h" />
+    <ClInclude Include="blocktype.h" />
     <ClInclude Include="imageloader.h" />
     <ClInclude Include="imagesplitter.h" />
   </ItemGroup>

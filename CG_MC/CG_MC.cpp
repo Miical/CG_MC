@@ -2,6 +2,7 @@
 #include <math.h>
 #include "imageloader.h"
 #include "imagesplitter.h"
+#include "blocktype.h"
 
 GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
@@ -14,22 +15,6 @@ GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
 GLfloat xwMin = -2.4, ywMin = -1.4, xwMax = 2.4, ywMax = 1.4;
 GLfloat dnear = 2, dfar = 100.0;
 
-GLuint loadTexture(Image* image) {
-    GLuint textureId;
-    glGenTextures(1, &textureId); //Make room for our texture
-    glBindTexture(GL_TEXTURE_2D, textureId); //Tell OpenGL which texture to edit
-    //Map the image to the texture
-    glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
-        0,                            //0 for now
-        GL_RGB,                       //Format OpenGL uses for image
-        image->width, image->height,  //Width and height
-        0,                            //The border of the image
-        GL_RGB, //GL_RGB, because pixels are stored in RGB format
-        GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
-        //as unsigned numbers
-        image->pixels);               //The actual pixel data
-    return textureId; //Returns the id of the texture
-}
 GLuint _textureId; //The id of the texture
 
 void coordinateSystem() {
@@ -100,17 +85,10 @@ void displayFcn(void) {
     glMaterialf(GL_FRONT, GL_SHININESS, object_mat_shininess);
 
     glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, _textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glColor3f(1.0f, 1.0f, 1.0f);
-    glBegin(GL_QUADS);
-		glNormal3f(0.0, 0.0f, 1.0f);
-		glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, -1.0f);
-		glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, 1.0f, -1.0f);
-		glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, -1.0f, -1.0f);
-		glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, -1.0f, -1.0f);
-    glEnd();
+    DIRT.render(0, 0, 0, 0, 0);
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();
@@ -131,19 +109,6 @@ void idleFcn(void) {
     glutPostRedisplay();
 }
 
-void initRendering() {
-    // glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_LIGHTING);
-    // glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_COLOR_MATERIAL);
-
-    
-    Image* image = loadBMP("./img/material.bmp3");
-    ImageSplitter splitter(image, 16, 16);
-    _textureId = loadTexture(splitter.getImage(43, 4));
-    delete image;
-}
 void init(void) {
     glClearColor(1.0, 1.0, 1.0, 0.0);
 
@@ -152,6 +117,10 @@ void init(void) {
 
     glMatrixMode(GL_PROJECTION);
     glFrustum(xwMin, xwMax, ywMin, ywMax, dnear, dfar);
+
+    glEnable(GL_NORMALIZE);
+    glEnable(GL_COLOR_MATERIAL);
+    initTexture();
 }
 
 int main(int argc, char* argv[]) {
@@ -162,7 +131,6 @@ int main(int argc, char* argv[]) {
     glutCreateWindow("graphics");
 
     init();
-    initRendering();
     glutDisplayFunc(displayFcn);
     glutReshapeFunc(reshapeFcn);
     glutIdleFunc(idleFcn);
