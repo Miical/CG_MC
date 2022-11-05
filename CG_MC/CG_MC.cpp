@@ -6,11 +6,11 @@ GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
 typedef GLfloat vertex3f[3];
 
-vertex3f p0 = { 2.0, 2.0, 10.0 }; // 观察参考系原点
+vertex3f p0 = { 2.0, 4.0, 6.0 }; // 观察参考系原点
 vertex3f p_ref = { 0.0, 0.0, 0.0 }; // 观察参考点
 GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
 
-GLfloat xwMin = -4.0, ywMin = -4.0, xwMax = 4.0, ywMax = 4.0;
+GLfloat xwMin = -2.4, ywMin = -1.4, xwMax = 2.4, ywMax = 1.4;
 GLfloat dnear = 2, dfar = 100.0;
 
 GLuint loadTexture(Image* image) {
@@ -77,8 +77,8 @@ void displayFcn(void) {
 
     GLfloat mat0_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //定义材质的环境光颜色
     GLfloat mat0_diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f }; //定义材质的漫反射光颜色
-    GLfloat mat0_specular[] = { 1.0f, 0.0f, 0.0f, 1.0f }; //定义材质的镜面反射光颜色，为0
-    GLfloat mat0_emission[] = { 1.0f, 0.9f, 0.1f, 1.0f }; //定义材质的辐射光颜色，为白色
+    GLfloat mat0_specular[] = { 1.0f, 0.0f, 0.0f, 1.0f }; //定义材质的镜面反射光颜色
+    GLfloat mat0_emission[] = { 1.0f, 0.9f, 0.1f, 1.0f }; //定义材质的辐射光颜色
     glMaterialfv(GL_FRONT, GL_AMBIENT, mat0_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat0_diffuse);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat0_specular);
@@ -87,11 +87,10 @@ void displayFcn(void) {
     glPopMatrix();
 
     // 物体
-    /**/
-    GLfloat object_mat_ambient[] = { 0.5f, 0.5f, 0.5, 1.0f }; //定义材质的环境光颜色
-    GLfloat object_mat_diffuse[] = { 0.9f, 0.8f, 0.6f, 1.0f }; //定义材质的漫反射光颜色，红色
-    GLfloat object_mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的镜面反射光颜色，白色
-    GLfloat object_mat_emission[] = { 0.3f, 0.3f, 0.3f, 1.0f }; //定义材质的辐射光颜色，为0
+    GLfloat object_mat_ambient[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的环境光颜色
+    GLfloat object_mat_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的漫反射光颜色
+    GLfloat object_mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的镜面反射光颜色
+    GLfloat object_mat_emission[] = { 0.5f, 0.5f, 0.5f, 0.5f }; //定义材质的辐射光颜色
     GLfloat object_mat_shininess = 100.0f; //定义材质的光泽程度
     glMaterialfv(GL_FRONT, GL_AMBIENT, object_mat_ambient);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, object_mat_diffuse);
@@ -101,8 +100,8 @@ void displayFcn(void) {
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, _textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
 		glNormal3f(0.0, 0.0f, 1.0f);
@@ -115,29 +114,6 @@ void displayFcn(void) {
 
     glutSwapBuffers();
 }
-
-
-
-
-void drawScene() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-
-    //设置光照
-    GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-    GLfloat directedLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };
-    GLfloat directedLightPos[] = { -10.0f, 15.0f, 20.0f, 0.0f };
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, directedLight);
-    glLightfv(GL_LIGHT0, GL_POSITION, directedLightPos);
-
-    glDisable(GL_TEXTURE_2D);
-    glutSwapBuffers();
-}
-
 
 void reshapeFcn(GLint newWidth, GLint newHeight) {
     glViewport(0, 0, newWidth, newHeight);

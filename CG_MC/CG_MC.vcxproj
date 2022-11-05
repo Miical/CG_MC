@@ -133,6 +133,10 @@
   <ItemGroup>
     <ClInclude Include="imageloader.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="img\imag.bmp3" />
+    <None Include="img\material.bmp3" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
