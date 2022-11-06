@@ -16,14 +16,37 @@ void initTexture() {
     TEXTURE[7] = loadTexture(splitter.getImage(43, 7));
     TEXTURE[8] = loadTexture(splitter.getImage(43, 8));
     TEXTURE[9] = loadTexture(splitter.getImage(43, 9));
+    TEXTURE[10] = loadTexture(splitter.getImage(43, 10));
+    TEXTURE[11] = loadTexture(splitter.getImage(42, 0));
+    TEXTURE[12] = loadTexture(splitter.getImage(42, 1));
+    TEXTURE[13] = loadTexture(splitter.getImage(42, 2));
+    TEXTURE[14] = loadTexture(splitter.getImage(42, 3));
+    TEXTURE[15] = loadTexture(splitter.getImage(42, 4));
+    TEXTURE[16] = loadTexture(splitter.getImage(42, 5));
+    TEXTURE[17] = loadTexture(splitter.getImage(42, 6));
+    TEXTURE[18] = loadTexture(splitter.getImage(42, 7));
+    TEXTURE[19] = loadTexture(splitter.getImage(42, 8));
+    TEXTURE[20] = loadTexture(splitter.getImage(42, 9));
+    TEXTURE[21] = loadTexture(splitter.getImage(42, 10));
 }
 
 const BlockBase* BLOCKS[] = {
-    &DIRT
+    &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE
 };
 
 const int DIRT_TEXTURE[6] = { 2, 2, 2, 2, 2, 2 };
 const Block DIRT(DIRT_TEXTURE);
+const int GRASS_TEXTURE[6] = { 3, 3, 0, 2, 3, 3 };
+const Block GRASS(GRASS_TEXTURE);
+const int STONE_TEXTURE[6] = { 1, 1, 1, 1, 1, 1 };
+const Block STONE(STONE_TEXTURE);
+const int OAK_WOOD_PLANK_TEXTURE[6] = { 4, 4, 4, 4, 4, 4 };
+const Block OAK_WOOD_PLANK(OAK_WOOD_PLANK_TEXTURE);
+const int COBBLESTONE_TEXTURE[6] = { 11, 11, 11, 11, 11, 11 };
+const Block COBBLESTONE(COBBLESTONE_TEXTURE);
+
+
+
 
 GLuint loadTexture(Image* image) {
     GLuint textureId;

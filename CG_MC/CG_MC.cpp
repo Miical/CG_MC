@@ -8,7 +8,7 @@ GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
 typedef GLfloat vertex3f[3];
 
-vertex3f p0 = { 6.0, 2.0, 4.0 }; // 观察参考系原点
+vertex3f p0 = { 6.0, 8.0, 5.0 }; // 观察参考系原点
 vertex3f p_ref = { 0.0, 0.0, 0.0 }; // 观察参考点
 GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
 
@@ -87,8 +87,18 @@ void displayFcn(void) {
     DIRT.render(0, 2, 0, 1);
     DIRT.render(0, 1, 0, 2);
     DIRT.render(0, 0, 1, 3);
-    DIRT.render(1, 0, 0, 0);
-    DIRT.render(0, 0, 2, 0);
+    GRASS.render(1, 0, 0, 0);
+    GRASS.render(0, 0, 2, 0);
+    GRASS.render(2, 0, 0, 0);
+    GRASS.render(1, 1, 0, 0);
+    STONE.render(0, 3, 0, 0);
+    STONE.render(0, 4, 0, 1);
+    OAK_WOOD_PLANK.render(2, 2, 0, 0);
+    OAK_WOOD_PLANK.render(1, 2, 0, 0);
+    COBBLESTONE.render(4, 0, 0, 0);
+    COBBLESTONE.render(4, 1, 0, 0);
+    COBBLESTONE.render(5, 0, 0, 0);
+    COBBLESTONE.render(6, 0, 0, 0);
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();

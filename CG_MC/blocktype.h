@@ -11,6 +11,10 @@ extern GLuint TEXTURE[MAX_TEXTUER_NUM];
 
 extern const BlockBase* BLOCKS[];
 extern const Block DIRT;
+extern const Block GRASS;
+extern const Block STONE;
+extern const Block OAK_WOOD_PLANK;
+extern const Block COBBLESTONE;
 
 void initTexture();
 GLuint loadTexture(Image* image);
