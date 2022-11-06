@@ -8,14 +8,12 @@ GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
 typedef GLfloat vertex3f[3];
 
-vertex3f p0 = { 2.0, 4.0, 6.0 }; // 观察参考系原点
+vertex3f p0 = { 6.0, 2.0, 4.0 }; // 观察参考系原点
 vertex3f p_ref = { 0.0, 0.0, 0.0 }; // 观察参考点
 GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
 
 GLfloat xwMin = -2.4, ywMin = -1.4, xwMax = 2.4, ywMax = 1.4;
 GLfloat dnear = 2, dfar = 100.0;
-
-GLuint _textureId; //The id of the texture
 
 void coordinateSystem() {
     glColor3f(0.4, 0.4, 0.4);
@@ -46,8 +44,8 @@ void displayFcn(void) {
     //设置光照
     glPushMatrix();
     ag += 0.1;
-    glRotated(ag, 1, 0, 0);
-    glTranslatef(0, 0, 5);
+    glRotated(ag, 1, 1, 0);
+    glTranslatef(0, 2, 5);
     GLfloat light0_position[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //光源的位置在世界坐标系圆心，齐次坐标形式
     GLfloat light0_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //RGBA模式的环境光
     GLfloat light0_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式的漫反射光
@@ -85,10 +83,12 @@ void displayFcn(void) {
     glMaterialf(GL_FRONT, GL_SHININESS, object_mat_shininess);
 
     glEnable(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glColor3f(1.0f, 1.0f, 1.0f);
-    DIRT.render(0, 0, 0, 0, 0);
+    DIRT.render(0, 2, 0, 1);
+    DIRT.render(0, 1, 0, 2);
+    DIRT.render(0, 0, 1, 3);
+    DIRT.render(1, 0, 0, 0);
+    DIRT.render(0, 0, 2, 0);
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();

@@ -23,8 +23,7 @@ const BlockBase* BLOCKS[] = {
 };
 
 const int DIRT_TEXTURE[6] = { 2, 2, 2, 2, 2, 2 };
-const int DIRT_TEXTURE_DIRECT[6] = { 0, 0, 0, 0, 0, 0 };
-const Block DIRT(DIRT_TEXTURE, DIRT_TEXTURE_DIRECT);
+const Block DIRT(DIRT_TEXTURE);
 
 GLuint loadTexture(Image* image) {
     GLuint textureId;

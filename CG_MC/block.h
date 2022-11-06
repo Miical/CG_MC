@@ -8,25 +8,27 @@ public:
 	/**
 	* 在位置(x, y, z)渲染该方块
 	* @param (x, y, z) 方块所在位置
-	* @param direct 方框六种朝向 
-	* @param rotate 四种旋转方向
+	* @param direct 方块四种种朝向 
 	*/
-	void render(float x, float y, float z, int direct, int rotate)const;
-	BlockBase(
-		int heightNum_, int widthNum_,
-		const float interval_[6], 
-		const int texture_[6], const int textureDirect_[6]);
+	virtual void render(float x, float y, float z, int direct)const = 0;
+	BlockBase(int lengthNum_, int widthNum_, int heightNum_);
 private:
-	int heightNum, widthNum; // 高度、宽度所占格子数量
-	float interval[6]; // 前后上下左右距离边缘的空隙大小
-	int texture[6]; // 六个面的材质 前后上下左右
-	int textureDirect[6]; // 六个面材质的四种旋转方向 
+	int lengthNum, widthNum, heightNum; // 高度、宽度所占格子数量
 };
 
 class Block : public BlockBase {
 public:
-	Block(const int texture_[6], const int textureDirect_[6]);
+	Block(const int texture_[6]);
+	void render(float x, float y, float z, int direct)const override;
+private:
+	int texture[6]; // 六个面的材质 前后上下左右
+	typedef GLfloat vertex3[3];
+	const vertex3 cube[8] = {
+		{ -0.5, -0.5, -0.5 }, { -0.5, 0.5, -0.5}, 
+		{ -0.5, 0.5, 0.5 }, { -0.5, -0.5, 0.5}, 
+		{ 0.5, -0.5, -0.5 }, { 0.5, 0.5, -0.5}, 
+		{ 0.5, 0.5, 0.5 }, { 0.5, -0.5, 0.5}, 
+	};
 };
-
 
 #endif
