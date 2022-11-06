@@ -8,11 +8,13 @@ GLint winWidth = 1200, winHeight = 700;
 typedef GLint vertex3i[3];
 typedef GLfloat vertex3f[3];
 
-vertex3f p0 = { 10.0, 3.0, 5.0 }; // 观察参考系原点
-vertex3f p_ref = { 0.0, 0.0, 0.0 }; // 观察参考点
+vertex3f p0 = { 5.0, 3.0, 3.0 }; // 观察参考系原点
+vertex3f p_ref = { 8.0, 8.0, 0.0 }; // 观察参考点
 GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
 
-GLfloat xwMin = -2.4, ywMin = -1.4, xwMax = 2.4, ywMax = 1.4;
+const GLfloat VISION = 0.8;
+GLfloat xwMin = -2.4 * VISION, ywMin = -1.4 * VISION, 
+    xwMax = 2.4 * VISION, ywMax = 1.4 * VISION;
 GLfloat dnear = 2, dfar = 100.0;
 
 void coordinateSystem() {
@@ -43,9 +45,9 @@ void displayFcn(void) {
 
     //设置光照
     glPushMatrix();
-    ag += 0.05;
+    ag += 0.2;
     glRotated(ag, 0, 1, 0);
-    glTranslatef(8, 0, 0);
+    glTranslatef(200, 0, 0);
     GLfloat light0_position[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //光源的位置在世界坐标系圆心，齐次坐标形式
     GLfloat light0_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //RGBA模式的环境光
     GLfloat light0_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式的漫反射光
@@ -83,23 +85,25 @@ void displayFcn(void) {
     glMaterialf(GL_FRONT, GL_SHININESS, object_mat_shininess);
 
     glEnable(GL_TEXTURE_2D);
-    glColor3f(1.0f, 1.0f, 1.0f);
-    DIRT.render(0, 2, 0, 1);
-    DIRT.render(0, 1, 0, 2);
-    DIRT.render(0, 0, 1, 3);
-    GRASS.render(1, 0, 0, 2);
-    GRASS.render(0, 0, 2, 1);
-    GRASS.render(2, 0, 0, 2);
-    GRASS.render(1, 1, 0, 3);
-    STONE.render(0, 3, 0, 0);
-    STONE.render(0, 4, 0, 1);
-    OAK_WOOD_PLANK.render(2, 2, 0, 0);
-    OAK_WOOD_PLANK.render(1, 2, 0, 1);
-    COBBLESTONE.render(4, 0, 0, 2);
-    COBBLESTONE.render(4, 1, 0, 3);
-    COBBLESTONE.render(5, 0, 0, 0);
-    COBBLESTONE.render(6, 0, 0, 1);
-    COBBLESTONE.render(5, 2, 0, 0);
+    
+    srand(1000);
+    for (int i = 0; i < 50; i++) {
+        for (int j = 0; j < 50; j++) {
+            if (rand() % 10 < 1)
+                DIRT.render(i, j, 0, 0);
+            else GRASS.render(i, j, 0, 0);
+        }
+    }
+    for (int i = 8; i < 30; i++) {
+        for (int j = 6; j < 30; j++) {
+            GRASS.render(i, j, 1, 0);
+        }
+    }
+    for (int i = 11; i < 15; i++) {
+        for (int j = 12; j < 18; j++) {
+            GRASS.render(i, j, 2, 0);
+        }
+    }
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();
