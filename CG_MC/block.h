@@ -21,7 +21,7 @@ public:
 	Block(const int texture_[6]);
 	void render(float x, float y, float z, int direct)const override;
 private:
-	int texture[6]; // 六个面的材质 前后上下左右
+	int texture[6]; // 六个面的材质 前后左右上下
 	typedef GLfloat vertex3[3];
 	const vertex3 cube[8] = {
 		{ -0.5, -0.5, -0.5 }, { -0.5, 0.5, -0.5}, 

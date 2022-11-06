@@ -11,14 +11,14 @@ Block::Block(const int texture_[6]) : BlockBase(1, 1, 1) {
 
 void Block::render(float x, float y, float z, int direct)const {
 	const int vertexsOrder[6][4] = {
-		{ 4, 5, 6, 7 }, { 0, 1, 2, 3 }, 
-		{ 7, 6, 2, 3 }, { 4, 5, 1, 0 }, 
-		{ 0, 4, 7, 3 }, { 5, 1, 2, 6 }
+		{ 4, 5, 6, 7 }, { 1, 0, 3, 2 }, 
+		{ 0, 4, 7, 3 }, { 5, 1, 2, 6 },
+		{ 7, 6, 2, 3 }, { 4, 5, 1, 0 }
 	};
 	const GLfloat normals[6][3] = {
 		{ 1.0f, 0.0f, 0.0f }, { -1.0f, 0.0f, 0.0f },
-		{ 0.0f, 0.0f, 1.0f }, { 1.0f, 0.0f, -1.0f },
-		{ 0.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f }
+		{ 0.0f, -1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, -1.0f }
 	};
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

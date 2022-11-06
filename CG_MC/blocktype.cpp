@@ -36,7 +36,7 @@ const BlockBase* BLOCKS[] = {
 
 const int DIRT_TEXTURE[6] = { 2, 2, 2, 2, 2, 2 };
 const Block DIRT(DIRT_TEXTURE);
-const int GRASS_TEXTURE[6] = { 3, 3, 0, 2, 3, 3 };
+const int GRASS_TEXTURE[6] = { 3, 3, 3, 3, 0, 2 };
 const Block GRASS(GRASS_TEXTURE);
 const int STONE_TEXTURE[6] = { 1, 1, 1, 1, 1, 1 };
 const Block STONE(STONE_TEXTURE);
