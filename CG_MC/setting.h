@@ -1,0 +1,23 @@
+#ifndef SETTING_H
+#define SETTING_H
+
+#include <GL/glut.h>
+
+typedef GLint vertex3i[3];
+typedef GLfloat vertex3f[3];
+extern const GLfloat PI;
+
+extern GLint winWidth, winHeight;
+extern const vertex3f INIT_POS;
+extern const GLfloat ALPHA, GAMA;
+extern const GLfloat VX, VY, VZ;
+
+extern const GLfloat VISION;
+extern const GLfloat XW_MIN, YW_MIN, XW_MAX, YW_MAX;
+extern const GLfloat D_NEAR, D_FAR;
+
+extern const GLfloat SPEED_Z;
+extern const GLfloat WALK_SPEED;
+extern const GLfloat MOUSE_SPEED;
+
+#endif

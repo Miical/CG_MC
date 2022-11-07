@@ -132,12 +132,18 @@
     <ClCompile Include="CG_MC.cpp" />
     <ClCompile Include="imageloader.cpp" />
     <ClCompile Include="imagesplitter.cpp" />
+    <ClCompile Include="inputprocess.cpp" />
+    <ClCompile Include="character.cpp" />
+    <ClCompile Include="setting.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
     <ClInclude Include="blocktype.h" />
     <ClInclude Include="imageloader.h" />
     <ClInclude Include="imagesplitter.h" />
+    <ClInclude Include="inputprocess.h" />
+    <ClInclude Include="character.h" />
+    <ClInclude Include="setting.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="img\material.bmp3" />

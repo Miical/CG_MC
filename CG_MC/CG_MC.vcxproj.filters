@@ -30,6 +30,15 @@
     <ClCompile Include="blocktype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="inputprocess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="setting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageloader.h">
@@ -42,6 +51,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="blocktype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inputprocess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="setting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

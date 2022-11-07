@@ -3,45 +3,14 @@
 #include "imageloader.h"
 #include "imagesplitter.h"
 #include "blocktype.h"
-
-GLint winWidth = 1200, winHeight = 700;
-typedef GLint vertex3i[3];
-typedef GLfloat vertex3f[3];
-
-vertex3f p0 = { 5.0, 3.0, 3.0 }; // 观察参考系原点
-vertex3f p_ref = { 8.0, 8.0, 0.0 }; // 观察参考点
-GLfloat Vx = 0.0, Vy = 0.0, Vz = 1.0;
-
-const GLfloat VISION = 0.8;
-GLfloat xwMin = -2.4 * VISION, ywMin = -1.4 * VISION, 
-    xwMax = 2.4 * VISION, ywMax = 1.4 * VISION;
-GLfloat dnear = 2, dfar = 100.0;
-
-void coordinateSystem() {
-    glColor3f(0.4, 0.4, 0.4);
-    glLineWidth(3.0);
-    glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 0.0, 10.0);
-    glEnd();
-    glLineWidth(1.0);
-    glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(0.0, 10.0, 0.0);
-    glEnd();
-    glLineWidth(2.0);
-    glBegin(GL_LINES);
-    glVertex3f(0.0, 0.0, 0.0);
-    glVertex3f(10.0, 0.0, 0.0);
-    glEnd();
-}
+#include "setting.h"
+#include "inputprocess.h"
+#include "character.h"
 
 GLfloat ag;
 void displayFcn(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
-
-    coordinateSystem();
 
     //设置光照
     glPushMatrix();
@@ -104,6 +73,7 @@ void displayFcn(void) {
             GRASS.render(i, j, 2, 0);
         }
     }
+    COBBLESTONE.render(6, 10, 1, 0);
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();
@@ -119,7 +89,15 @@ void reshapeFcn(GLint newWidth, GLint newHeight) {
 void idleFcn(void) {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(p0[0], p0[1], p0[2], p_ref[0], p_ref[1], p_ref[2], Vx, Vy, Vz);
+    gluLookAt(
+        character.getPosX(), 
+        character.getPosY(), 
+        character.getPosZ(),
+		character.getRefPointX(), 
+        character.getRefPointY(), 
+        character.getRefPointZ(),
+        VX, VY, VZ
+    );
 
     glutPostRedisplay();
 }
@@ -128,14 +106,24 @@ void init(void) {
     glClearColor(1.0, 1.0, 1.0, 0.0);
 
     glMatrixMode(GL_MODELVIEW);
-    gluLookAt(p0[0], p0[1], p0[2], p_ref[0], p_ref[1], p_ref[2], Vx, Vy, Vz);
+    gluLookAt(
+        character.getPosX(), 
+        character.getPosY(), 
+        character.getPosZ(),
+		character.getRefPointX(), 
+        character.getRefPointY(), 
+        character.getRefPointZ(),
+        VX, VY, VZ
+    );
 
     glMatrixMode(GL_PROJECTION);
-    glFrustum(xwMin, xwMax, ywMin, ywMax, dnear, dfar);
+    glFrustum(XW_MIN, XW_MAX, YW_MIN, YW_MAX, D_NEAR, D_FAR);
 
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
+
     initTexture();
+    initInput();
 }
 
 int main(int argc, char* argv[]) {
