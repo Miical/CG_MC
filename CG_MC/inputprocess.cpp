@@ -10,20 +10,27 @@ bool mouseActive;
 void keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'w':
-		character.walk(WALK_SPEED, 0);
+		character.walk(WALK_SPEED, 0, worldMap);
 		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 'a':
-		character.walk(WALK_SPEED, 1);
+		character.walk(WALK_SPEED, 1, worldMap);
 		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 's':
-		character.walk(WALK_SPEED, 2);
+		character.walk(WALK_SPEED, 2, worldMap);
 		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 'd':
-		character.walk(WALK_SPEED, 3);
+		character.walk(WALK_SPEED, 3, worldMap);
 		worldMap.changePos(character.getPosX(), character.getPosY());
+		break;
+	case 'm':
+		character.reverseFly();
+		break;
+	case ' ':
+		if (!character.isJumping())
+			character.jump(worldMap);
 		break;
 	case 27:
 		mouseActive = false;
@@ -59,12 +66,16 @@ void passiveMotionFunc(int x, int y) {
 void specialKeyFunc(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_DOWN:
-		character.upOrDown(-SPEED_Z);
-		glutPostRedisplay();
+		if (character.isFlying()) {
+			character.upOrDown(-SPEED_Z, worldMap);
+			glutPostRedisplay();
+		}
 		break;
 	case GLUT_KEY_UP:
-		character.upOrDown(SPEED_Z);
-		glutPostRedisplay();
+		if (character.isFlying()) {
+			character.upOrDown(SPEED_Z, worldMap);
+			glutPostRedisplay();
+		}
 		break;
 	default:
 		break;

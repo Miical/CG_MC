@@ -30,6 +30,8 @@ void initTexture() {
     TEXTURE[21] = loadTexture(splitter.getImage(42, 10));
 }
 
+const block_t AIR = 255;
+
 const BlockBase* BLOCKS[] = {
     &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE
 };

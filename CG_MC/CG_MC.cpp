@@ -82,6 +82,7 @@ void idleFcn(void) {
         VX, VY, VZ
     );
 
+    character.idleStateProcessing(worldMap);
     glutPostRedisplay();
 }
 

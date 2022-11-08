@@ -5,9 +5,12 @@
 #include "block.h"
 #include "imagesplitter.h"
 #include "imageloader.h"
+#include "setting.h"
 
 const size_t MAX_TEXTUER_NUM = 100;
 extern GLuint TEXTURE[MAX_TEXTUER_NUM];
+
+extern const block_t AIR;
 
 extern const BlockBase* BLOCKS[];
 extern const Block DIRT;

@@ -87,7 +87,7 @@ void Map::render()const {
 				if (lx <= x && x < rx && ly <= y && y <= ry) {
 					for (int z = 0; z < WORLD_HEIGHT; z++) {
 						block_t type = mapBlock.second->getBlock(x, y, z);
-						if (type != 255)
+						if (type != AIR)
 							BLOCKS[type]->render(x, y, z);
 					}
 				}
