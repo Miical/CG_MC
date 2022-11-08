@@ -27,7 +27,7 @@ public:
 	Map(int watchPosX_, int watchPosY_);
 	block_t getBlock(int x, int y, int z);
 	void changePos(int x, int y);
-
+	void render()const;
 private:
 	int watchPosX, watchPosY;
 	typedef unsigned int MapBlockID;

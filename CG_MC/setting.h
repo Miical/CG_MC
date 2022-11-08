@@ -1,6 +1,7 @@
 #ifndef SETTING_H
 #define SETTING_H
 
+#include <cstdio>
 #include <GL/glut.h>
 
 typedef GLint vertex3i[3];

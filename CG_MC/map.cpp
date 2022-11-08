@@ -1,3 +1,4 @@
+#include "blocktype.h"
 #include "map.h"
 #include "mapgenerator.h"
 
@@ -25,9 +26,7 @@ bool MapBlock::contain(int x, int y, int z)const {
 		&& 0 <= z && z < WORLD_HEIGHT;
 }
 
-#include <cstdio>
 block_t MapBlock::getBlock(int x, int y, int z)const {
-	// printf("%d %d %d\n", x, y, z);
 	x -= getPosX(); y -= getPosY();
 	return blocks[getID(x, y, z)];
 }
@@ -47,23 +46,55 @@ block_t Map::getBlock(int x, int y, int z){
 void Map::changePos(int x, int y) {
 	watchPosX = x; watchPosY = y;
 	int lx = x - RENDER_RANGE / 2, ly  = y - RENDER_RANGE / 2;
-	for (auto mapBlock = mapBlocks.begin(); mapBlock != mapBlocks.end(); mapBlock++) {
+	for (auto mapBlock = mapBlocks.begin(); mapBlock != mapBlocks.end();) {
 		if (!validMapBlock(mapBlock->second)) {
 			delete mapBlock->second;
 			mapBlock = mapBlocks.erase(mapBlock);
 		}
+		if (mapBlock != mapBlocks.end()) mapBlock++;
 	}
-	for (x = lx; x < lx + RENDER_RANGE; x++) {
-		for (y = ly; y < ly + RENDER_RANGE; y++) {
+	for (int x = lx, flagx = false;;) {
+		for (int y = ly, flagy = false;;) {
 			if (mapBlocks.find(getMapBlockID(x, y)) == mapBlocks.end()) {
 				mapBlocks[getMapBlockID(x, y)] = new MapBlock(
 					((x - (MAP_BLOCK_SIZE - 1) * (x < 0)) / MAP_BLOCK_SIZE) * MAP_BLOCK_SIZE,
 					((y - (MAP_BLOCK_SIZE - 1) * (y < 0)) / MAP_BLOCK_SIZE) * MAP_BLOCK_SIZE);
 			}
+			y += MAP_BLOCK_SIZE;
+			if (y >= ly + RENDER_RANGE) {
+				if (!flagy) flagy = true, y = ly + RENDER_RANGE - 1;
+				else break;
+			}
+		} 
+		x += MAP_BLOCK_SIZE;
+		if (x >= lx + RENDER_RANGE) {
+			if (!flagx) flagx = true, x = lx + RENDER_RANGE - 1;
+			else break;
 		}
 	}
 }
 
+void Map::render()const {
+	int lx = watchPosX - RENDER_RANGE / 2, ly = watchPosY - RENDER_RANGE / 2;
+	int rx = lx + RENDER_RANGE, ry = ly + RENDER_RANGE;
+	for (auto& mapBlock : mapBlocks) {
+		for (int i = 0, x = mapBlock.second->getPosX(); 
+			i < MAP_BLOCK_SIZE; i++, x++) {
+
+			for (int j = 0, y = mapBlock.second->getPosY(); 
+				j < MAP_BLOCK_SIZE; j++, y++) {
+				
+				if (lx <= x && x < rx && ly <= y && y <= ry) {
+					for (int z = 0; z < WORLD_HEIGHT; z++) {
+						block_t type = mapBlock.second->getBlock(x, y, z);
+						if (type != 255)
+							BLOCKS[type]->render(x, y, z);
+					}
+				}
+			}
+		}
+	}
+}
 
 Map::MapBlockID Map::getMapBlockID(int x, int y)const {
 	unsigned int offset = 0x7fffffffu / 4u;

@@ -8,20 +8,6 @@
 #include "character.h"
 #include "map.h"
 
-void renderWorld() {
-	int lx = character.getPosX() - RENDER_RANGE / 2, 
-        ly = character.getPosY() - RENDER_RANGE / 2;
-    for (int z = 0; z < WORLD_HEIGHT; z++) {
-        for (int y = ly; y < ly + RENDER_RANGE; y++) {
-			for (int x = lx; x < lx + RENDER_RANGE; x++) {
-                block_t type = worldMap.getBlock(x, y, z);
-                if (type != 255)
-                    BLOCKS[type]->render(x, y, z, 0);
-			}
-        }
-    }
-}
-
 GLfloat ag;
 void displayFcn() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -70,28 +56,7 @@ void displayFcn() {
 
     glEnable(GL_TEXTURE_2D);
     
-    /*
-    srand(1000);
-    for (int i = 0; i < 50; i++) {
-        for (int j = 0; j < 50; j++) {
-            if (rand() % 10 < 1)
-                DIRT.render(i, j, 0, 0);
-            else GRASS.render(i, j, 0, 0);
-        }
-    }
-    for (int i = 8; i < 30; i++) {
-        for (int j = 6; j < 30; j++) {
-            GRASS.render(i, j, 1, 0);
-        }
-    }
-    for (int i = 11; i < 15; i++) {
-        for (int j = 12; j < 18; j++) {
-            GRASS.render(i, j, 2, 0);
-        }
-    }
-    COBBLESTONE.render(6, 10, 1, 0);
-    */
-    renderWorld();
+    worldMap.render();
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();
