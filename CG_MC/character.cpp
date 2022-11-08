@@ -65,8 +65,10 @@ bool Character::autoJump(Map& world) {
 		newPosY = pos[1] + WALK_SPEED * sinf(alpha),
 		newPosZ = pos[2] + 1.05f;
 	if (legalPos(newPosX, newPosY, newPosZ, world)) {
-		jumping = 8;
-		return true;
+		if (!legalPos(pos[0], pos[1], pos[2] - 0.4f, world)) {
+			jumping = 8;
+			return true;
+		}
 	}
 	return false;
 }
