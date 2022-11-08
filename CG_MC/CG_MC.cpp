@@ -6,9 +6,24 @@
 #include "setting.h"
 #include "inputprocess.h"
 #include "character.h"
+#include "map.h"
+
+void renderWorld() {
+	int lx = character.getPosX() - RENDER_RANGE / 2, 
+        ly = character.getPosY() - RENDER_RANGE / 2;
+    for (int z = 0; z < WORLD_HEIGHT; z++) {
+        for (int y = ly; y < ly + RENDER_RANGE; y++) {
+			for (int x = lx; x < lx + RENDER_RANGE; x++) {
+                block_t type = worldMap.getBlock(x, y, z);
+                if (type != 255)
+                    BLOCKS[type]->render(x, y, z, 0);
+			}
+        }
+    }
+}
 
 GLfloat ag;
-void displayFcn(void) {
+void displayFcn() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
 
@@ -55,6 +70,7 @@ void displayFcn(void) {
 
     glEnable(GL_TEXTURE_2D);
     
+    /*
     srand(1000);
     for (int i = 0; i < 50; i++) {
         for (int j = 0; j < 50; j++) {
@@ -74,6 +90,8 @@ void displayFcn(void) {
         }
     }
     COBBLESTONE.render(6, 10, 1, 0);
+    */
+    renderWorld();
     glDisable(GL_TEXTURE_2D);
 
     glutSwapBuffers();

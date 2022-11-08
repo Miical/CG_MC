@@ -3,6 +3,7 @@
 #include "inputprocess.h"
 #include "character.h"
 #include "setting.h"
+#include "map.h"
 
 bool mouseActive;
 
@@ -10,15 +11,19 @@ void keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'w':
 		character.walk(WALK_SPEED, 0);
+		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 'a':
 		character.walk(WALK_SPEED, 1);
+		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 's':
 		character.walk(WALK_SPEED, 2);
+		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 'd':
 		character.walk(WALK_SPEED, 3);
+		worldMap.changePos(character.getPosX(), character.getPosY());
 		break;
 	case 27:
 		mouseActive = false;

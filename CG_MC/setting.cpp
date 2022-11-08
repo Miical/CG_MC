@@ -20,3 +20,6 @@ const GLfloat SPEED_Z = 0.1f;
 const GLfloat WALK_SPEED = 0.1f;
 const GLfloat MOUSE_SPEED = 1.5f;
 
+const int WORLD_HEIGHT = 128;
+const int MAP_BLOCK_SIZE = 16;
+const int RENDER_RANGE = 2 * MAP_BLOCK_SIZE; 
