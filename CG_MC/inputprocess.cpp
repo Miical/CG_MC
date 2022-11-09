@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "inputprocess.h"
 #include "character.h"
-#include "setting.h"
+#include "blocktype.h"
 #include "map.h"
 
 bool mouseActive;
@@ -93,3 +93,21 @@ void initInput() {
 
 	mouseActive = true;
 }
+
+bool getTargetBlock(Point3Di& target) {
+	Point3Df now{ character.getPosX(), character.getPosY(), character.getPosZ() };
+	Point3Df direct = { character.getRefPointX() - now.x,
+		character.getRefPointY() - now.y,
+		character.getRefPointZ() - now.z
+	};
+
+	for (int i = 0; i < 10; i++) {
+		now.x += direct.x / 2.0f; now.y += direct.y / 2.0f; now.z += direct.z / 2.0f;
+		if (worldMap.getBlock(floor(now.x), floor(now.y), floor(now.z)) != AIR) {
+			target.x = floor(now.x), target.y = floor(now.y), target.z = floor(now.z);
+			return true;
+		}
+	}
+	return false;
+}
+

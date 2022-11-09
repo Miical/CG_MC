@@ -8,6 +8,36 @@
 #include "character.h"
 #include "map.h"
 
+void drawFrontSight() {
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_LIGHTING);
+    glColor3f(0.0f, 0.0f, 0.0f);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+	glLoadIdentity();
+    gluOrtho2D(0.0, winWidth, 0.0, winHeight);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    glLineWidth(1.0);
+    glBegin(GL_LINES);
+		glVertex2f(winWidth / 2 - 10.0f, winHeight / 2);
+		glVertex2f(winWidth / 2 + 10.0f, winHeight / 2);
+		glVertex2f(winWidth / 2, winHeight / 2 - 10.0f);
+		glVertex2f(winWidth / 2, winHeight / 2 + 10.0f);
+    glEnd();
+    glPopMatrix();
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glColor3f(1.0f, 1.0f, 1.0f);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
+}
+
 GLfloat ag;
 void displayFcn() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -17,48 +47,27 @@ void displayFcn() {
     glPushMatrix();
     ag += 0.2;
     glRotated(ag, 0, 1, 0);
-    glTranslatef(200, 0, 0);
-    GLfloat light0_position[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //光源的位置在世界坐标系圆心，齐次坐标形式
-    GLfloat light0_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //RGBA模式的环境光
-    GLfloat light0_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式的漫反射光
-    GLfloat light0_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式下的镜面光
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);
+    glTranslatef(2000, 0, 0);
+    GLfloat light_position[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //光源的位置在世界坐标系圆心，齐次坐标形式
+    GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //RGBA模式的环境光
+    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式的漫反射光
+    GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 0.0f }; //RGBA模式下的镜面光
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
     glDepthFunc(GL_LESS);
     glEnable(GL_DEPTH_TEST);
-
-    GLfloat mat0_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //定义材质的环境光颜色
-    GLfloat mat0_diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f }; //定义材质的漫反射光颜色
-    GLfloat mat0_specular[] = { 1.0f, 0.0f, 0.0f, 1.0f }; //定义材质的镜面反射光颜色
-    GLfloat mat0_emission[] = { 1.0f, 0.9f, 0.1f, 1.0f }; //定义材质的辐射光颜色
-    glMaterialfv(GL_FRONT, GL_AMBIENT, mat0_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat0_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, mat0_specular);
-    glMaterialfv(GL_FRONT, GL_EMISSION, mat0_emission);
-    glutSolidSphere(1.0, 20, 20);
     glPopMatrix();
 
     // 物体
-    GLfloat object_mat_ambient[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的环境光颜色
-    GLfloat object_mat_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的漫反射光颜色
-    GLfloat object_mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //定义材质的镜面反射光颜色
-    GLfloat object_mat_emission[] = { 0.5f, 0.5f, 0.5f, 0.5f }; //定义材质的辐射光颜色
-    GLfloat object_mat_shininess = 100.0f; //定义材质的光泽程度
-    glMaterialfv(GL_FRONT, GL_AMBIENT, object_mat_ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, object_mat_diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, object_mat_specular);
-    glMaterialfv(GL_FRONT, GL_EMISSION, object_mat_emission);
-    glMaterialf(GL_FRONT, GL_SHININESS, object_mat_shininess);
-
     glEnable(GL_TEXTURE_2D);
-    
     worldMap.render();
     glDisable(GL_TEXTURE_2D);
 
+    drawFrontSight();
     glutSwapBuffers();
 }
 
@@ -82,12 +91,16 @@ void idleFcn(void) {
         VX, VY, VZ
     );
 
+    Point3Di target;
+    if (!getTargetBlock(target)) target.z = -1;
+    worldMap.setTargetBlock(target);
+
     character.idleStateProcessing(worldMap);
     glutPostRedisplay();
 }
 
 void init(void) {
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glClearColor(0.6, 0.8, 0.9, 0.0);
 
     glMatrixMode(GL_MODELVIEW);
     gluLookAt(

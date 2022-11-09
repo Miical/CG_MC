@@ -26,11 +26,14 @@ class Map {
 public:
 	Map(int watchPosX_, int watchPosY_);
 	block_t getBlock(int x, int y, int z);
+	void setTargetBlock(Point3Di target);
 	void changePos(int x, int y);
 	void render()const;
 private:
 	int watchPosX, watchPosY;
+	Point3Di targetBlock;
 	typedef unsigned int MapBlockID;
+
 	MapBlockID getMapBlockID(int x, int y)const;
 	bool inRenderRange(int x, int y)const;
 	bool validMapBlock(MapBlock* mapBlock)const;

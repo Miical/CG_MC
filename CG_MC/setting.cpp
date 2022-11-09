@@ -25,3 +25,9 @@ const GLfloat FALLINT_SPEED = 0.1f;
 const int WORLD_HEIGHT = 32;
 const int MAP_BLOCK_SIZE = 16;
 const int RENDER_RANGE = 2 * MAP_BLOCK_SIZE; 
+
+const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 环境光颜色 
+const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 漫反射光颜色
+const GLfloat BLOCK_MAT_SPECULAR[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // 镜面反射光颜色
+const GLfloat BLOCK_MAT_EMISSION[] = { 0.3f, 0.3f, 0.3f, 0.3f }; // 辐射光颜色
+const GLfloat BLOCK_MAT_SHININESS = 1.0f; //定义材质的光泽程度

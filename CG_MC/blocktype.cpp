@@ -1,4 +1,4 @@
-#include "blocktype.h"
+﻿#include "blocktype.h"
 
 const Image* image = loadBMP("./img/material.bmp3");
 const ImageSplitter splitter(image, 16, 16);
@@ -28,6 +28,12 @@ void initTexture() {
     TEXTURE[19] = loadTexture(splitter.getImage(42, 8));
     TEXTURE[20] = loadTexture(splitter.getImage(42, 9));
     TEXTURE[21] = loadTexture(splitter.getImage(42, 10));
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, BLOCK_MAT_AMBIENT);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, BLOCK_MAT_DIFFUSE);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, BLOCK_MAT_SPECULAR);
+    glMaterialfv(GL_FRONT, GL_EMISSION, BLOCK_MAT_EMISSION);
+    glMaterialf(GL_FRONT, GL_SHININESS, BLOCK_MAT_SHININESS);
 }
 
 const block_t AIR = 255;

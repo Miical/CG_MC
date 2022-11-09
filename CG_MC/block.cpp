@@ -1,8 +1,36 @@
-#include "block.h"
+﻿#include "block.h"
 #include "blocktype.h"
 
 BlockBase::BlockBase( int lengthNum_, int widthNum_, int heightNum_) :
 	lengthNum(lengthNum_), heightNum(heightNum_), widthNum(widthNum_) {
+}
+
+void BlockBase::renderTargetBlock(float x, float y, float z)const {
+	render(x, y, z);
+
+	const vertex3f v[8] = {
+		{ 0.0f, 0.0f, 0.0f }, { lengthNum, 0.0f, 0.0f },
+		{ lengthNum, widthNum, 0.0f },{ 0.0f, widthNum, 0.0f }, 
+		{ 0.0f, 0.0f, heightNum }, { lengthNum, 0.0f, heightNum },
+		{ lengthNum, widthNum, heightNum }, { 0.0f, widthNum, heightNum }
+	};
+
+	glDisable(GL_LIGHTING);
+	glColor3f(0.0, 0.0, 0.0);
+	glLineWidth(4.0);
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslated(x, y, z);
+	glBegin(GL_LINES);
+	for (int i = 0; i < 4; i++) {
+		glVertex3fv(v[i]); glVertex3fv(v[(i + 1) % 4]);
+		glVertex3fv(v[i + 4]); glVertex3fv(v[(i + 1) % 4 + 4]);
+		glVertex3fv(v[i]); glVertex3fv(v[i + 4]);
+	}
+	glEnd();
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+	glColor3f(1.0, 1.0, 1.0);
 }
 
 Block::Block(const int texture_[6]) : BlockBase(1, 1, 1) {

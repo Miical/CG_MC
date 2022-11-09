@@ -43,6 +43,10 @@ block_t Map::getBlock(int x, int y, int z){
 	return mapBlocks[getMapBlockID(x, y)]->getBlock(x, y, z);
 }
 
+void Map::setTargetBlock(Point3Di target) {
+	targetBlock = target;
+}
+
 void Map::changePos(int x, int y) {
 	watchPosX = x; watchPosY = y;
 	int lx = x - RENDER_RANGE / 2, ly  = y - RENDER_RANGE / 2;
@@ -88,7 +92,9 @@ void Map::render()const {
 					for (int z = 0; z < WORLD_HEIGHT; z++) {
 						block_t type = mapBlock.second->getBlock(x, y, z);
 						if (type != AIR)
-							BLOCKS[type]->render(x, y, z);
+							if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
+								BLOCKS[type]->renderTargetBlock(x, y, z);
+							else BLOCKS[type]->render(x, y, z);
 					}
 				}
 			}
