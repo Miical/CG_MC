@@ -9,6 +9,7 @@
 
 bool mouseActive, leftButtonPressed;
 int leftButtonTimer;
+block_t currentType;
 
 void keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
@@ -66,7 +67,7 @@ void mouseFunc(int button, int state, int x, int y) {
 		if (!leftButtonPressed) return;
 		leftButtonPressed = false;
 		
-		worldMap.placeBlock(0);
+		worldMap.placeBlock(currentType);
 	}
 }
 
@@ -103,6 +104,14 @@ void specialKeyFunc(int key, int x, int y) {
 			glutPostRedisplay();
 		}
 		break;
+	case GLUT_KEY_LEFT:
+		currentType = (currentType + BLOCK_TYPE_NUM - 1) % BLOCK_TYPE_NUM;
+		printf("%d\n", currentType);
+		break;
+	case GLUT_KEY_RIGHT:
+		currentType = (currentType + 1) % BLOCK_TYPE_NUM;
+		printf("%d\n", currentType);
+		break;
 	default:
 		break;
 	}
@@ -118,9 +127,10 @@ void initInput() {
 	glutWarpPointer(winWidth / 2, winHeight / 2);
 	glutSetCursor(GLUT_CURSOR_NONE);
 
-	leftButtonTimer = 0;
 	mouseActive = true;
+	leftButtonTimer = 0;
 	leftButtonPressed = false;
+	currentType = 0;
 }
 
 void inputIdleFunc() {
@@ -138,7 +148,8 @@ void inputIdleFunc() {
 	worldMap.setTargetBlock(target);
 
 	if (!hasTargetBlock || !getDropPos(target)
-		|| !character.legalPosToPlaceBlock(target.x, target.y, target.z))
+		|| !character.legalPosToPlaceBlock(target.x, target.y, target.z)
+		|| worldMap.getBlock(target.x, target.y, target.z) != AIR)
 		target.z = -1;
 	worldMap.setDropBlock(target);
 }

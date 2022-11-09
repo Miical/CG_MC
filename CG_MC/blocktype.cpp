@@ -38,6 +38,7 @@ void initTexture() {
 
 const block_t AIR = 255;
 
+const block_t BLOCK_TYPE_NUM = 5;
 const BlockBase* BLOCKS[] = {
     &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE
 };

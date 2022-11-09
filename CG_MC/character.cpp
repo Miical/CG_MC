@@ -27,16 +27,14 @@ bool Character::isJumping()const { return jumping; }
 void Character::reverseFly() { flying = !flying; }
 
 bool Character::legalPosToPlaceBlock(int x, int y, int z) {
-	int tx = x, ty = y, tz = z;
-	x = pos[0], y = pos[1], z = pos[2];
-	z -= 0.25f;
-	for (float pz = z - 0.95f; pz <= z + 0.95f + eps; pz += 0.95f) {
-		for (float px = x - 0.3f; px <= x + 0.3f + eps; px += 0.3f) {
-			for (float py = y - 0.3f; py <= y + 0.3f + eps; py += 0.3f) {
+	float tx = pos[0], ty = pos[1], tz = pos[2];
+	tz -= 0.25f;
+	for (float pz = tz - 0.95f; pz <= tz + 0.95f + eps; pz += 0.95f) {
+		for (float px = tx - 0.3f; px <= tx + 0.3f + eps; px += 0.3f) {
+			for (float py = ty - 0.3f; py <= ty + 0.3f + eps; py += 0.3f) {
 				if (abs(px) <= eps || abs(py) <= eps) continue;
-				if (z <= 0.0f || WORLD_HEIGHT <= z) return false;
-				if (int(floor(px)) == tx && int(floor(py)) == ty 
-					&& int(floor(pz)) == tz)
+				if (int(floor(px)) == x && int(floor(py)) == y
+					&& int(floor(pz)) == z)
 					return false;
 			}
 		}
