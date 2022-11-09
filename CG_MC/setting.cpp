@@ -31,3 +31,5 @@ const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 漫反射光�
 const GLfloat BLOCK_MAT_SPECULAR[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // 镜面反射光颜色
 const GLfloat BLOCK_MAT_EMISSION[] = { 0.3f, 0.3f, 0.3f, 0.3f }; // 辐射光颜色
 const GLfloat BLOCK_MAT_SHININESS = 1.0f; //定义材质的光泽程度
+
+const char* MAP_FILE = "./data/map.dat";

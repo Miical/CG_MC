@@ -96,6 +96,7 @@ void idleFcn(void) {
     worldMap.setTargetBlock(target);
 
     character.idleStateProcessing(worldMap);
+	inputIdleFunc();
     glutPostRedisplay();
 }
 
@@ -123,18 +124,21 @@ void init(void) {
     initInput();
 }
 
+void exitFunc() {}
+
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
     glutInitWindowSize(winWidth, winHeight);
     glutInitWindowPosition(150, 80);
-    glutCreateWindow("graphics");
+    glutCreateWindow("GC_MC");
+
+    atexit(exitFunc);
 
     init();
     glutDisplayFunc(displayFcn);
     glutReshapeFunc(reshapeFcn);
     glutIdleFunc(idleFcn);
     glutMainLoop();
-
     return 0;
 }

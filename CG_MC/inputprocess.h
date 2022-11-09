@@ -4,5 +4,6 @@
 
 void initInput();
 bool getTargetBlock(Point3Di& target);
+void inputIdleFunc();
 
 #endif 

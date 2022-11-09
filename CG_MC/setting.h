@@ -36,4 +36,5 @@ extern const GLfloat BLOCK_MAT_SPECULAR[];
 extern const GLfloat BLOCK_MAT_EMISSION[];
 extern const GLfloat BLOCK_MAT_SHININESS;
 
+extern const char* MAP_FILE;
 #endif
