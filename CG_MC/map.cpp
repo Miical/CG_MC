@@ -48,8 +48,8 @@ int MapBlock::getID(int x, int y, int z)const {
 }
 
 Map::Map(int watchPosX_, int watchPosY_) {
-	changePos(watchPosX_, watchPosY_);
 	loadFile();
+	changePos(watchPosX_, watchPosY_);
 	targetBlock.x = 0; targetBlock.y = 0; targetBlock.z = -1;
 }
 
@@ -114,8 +114,6 @@ void Map::render()const {
 				if (lx <= x && x < rx && ly <= y && y <= ry) {
 					for (int z = 0; z < WORLD_HEIGHT; z++) {
 						block_t type = mapBlock.second->getBlock(x, y, z);
-						if (x == dropBlock.x && y == dropBlock.y && z == dropBlock.z)
-							DIRT.renderTargetBlock(x, y, z);
 						if (type != AIR)
 							if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
 								BLOCKS[type]->renderTargetBlock(x, y, z);
@@ -132,6 +130,13 @@ void Map::removeTargetBlock() {
 	modified[compressPos(targetBlock.x, targetBlock.y, targetBlock.z)] = AIR;
 	mapBlocks[getMapBlockID(targetBlock.x, targetBlock.y)]
 		->modifyBlock(targetBlock.x, targetBlock.y, targetBlock.z, AIR);
+}
+
+void Map::placeBlock(int type) {
+	if (dropBlock.z < 0) return;
+	modified[compressPos(dropBlock.x, dropBlock.y, dropBlock.z)] = type;
+	mapBlocks[getMapBlockID(dropBlock.x, dropBlock.y)]
+		->modifyBlock(dropBlock.x, dropBlock.y, dropBlock.z, type);
 }
 
 Map::MapBlockID Map::getMapBlockID(int x, int y)const {
@@ -170,8 +175,8 @@ void Map::saveFile()const {
 
 void Map::loadFile() {
 	using namespace std;
-	ifstream fin;
-	fin.open(MAP_FILE, ios_base::in);
+	fstream fin;
+	fin.open(MAP_FILE, fstream::in | fstream::app);
 	if (!fin.is_open()) {
 		cerr << "Load failed! Can't open file '" << MAP_FILE << "'.\n";
 		cerr << "The world has been recreated." << endl;
@@ -179,8 +184,8 @@ void Map::loadFile() {
 		return;
 	}
 	
-	MapBlockID blockID;
-	block_t type;
+	CompressedPos blockID;
+	int type;
 	while (fin >> blockID >> type)
 		modified.insert(make_pair(blockID, type));
 	fin.close();

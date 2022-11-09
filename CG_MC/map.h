@@ -36,6 +36,7 @@ public:
 	void changePos(int x, int y);
 	void render()const;
 	void removeTargetBlock();
+	void placeBlock(int type);
 
 	void saveFile()const;
 private:

@@ -65,8 +65,8 @@ void mouseFunc(int button, int state, int x, int y) {
 	else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
 		if (!leftButtonPressed) return;
 		leftButtonPressed = false;
-
-		// TODO
+		
+		worldMap.placeBlock(0);
 	}
 }
 
@@ -137,7 +137,8 @@ void inputIdleFunc() {
 	if (!hasTargetBlock) target.z = -1;
 	worldMap.setTargetBlock(target);
 
-	if (!(hasTargetBlock && getDropPos(target)))
+	if (!hasTargetBlock || !getDropPos(target)
+		|| !character.legalPosToPlaceBlock(target.x, target.y, target.z))
 		target.z = -1;
 	worldMap.setDropBlock(target);
 }

@@ -26,6 +26,23 @@ bool Character::isFlying()const { return flying;  }
 bool Character::isJumping()const { return jumping; }
 void Character::reverseFly() { flying = !flying; }
 
+bool Character::legalPosToPlaceBlock(int x, int y, int z) {
+	int tx = x, ty = y, tz = z;
+	x = pos[0], y = pos[1], z = pos[2];
+	z -= 0.25f;
+	for (float pz = z - 0.95f; pz <= z + 0.95f + eps; pz += 0.95f) {
+		for (float px = x - 0.3f; px <= x + 0.3f + eps; px += 0.3f) {
+			for (float py = y - 0.3f; py <= y + 0.3f + eps; py += 0.3f) {
+				if (abs(px) <= eps || abs(py) <= eps) continue;
+				if (z <= 0.0f || WORLD_HEIGHT <= z) return false;
+				if (int(floor(px)) == tx && int(floor(py)) == ty 
+					&& int(floor(pz)) == tz)
+					return false;
+			}
+		}
+	}
+	return true;
+}
 
 void Character::upOrDown(float dist, Map& world) {
 	if (legalPos(pos[0], pos[1], pos[2] + dist, world))
@@ -57,7 +74,7 @@ void Character::walk(float dist, int direct, Map& world) {
 
 void Character::jump(Map& world) {
 	if (!legalPos(pos[0], pos[1], pos[2] - 0.1f, world))
-		jumping = 8;
+		jumping = 15;
 }
 
 bool Character::autoJump(Map& world) {
