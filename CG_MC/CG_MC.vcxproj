@@ -137,6 +137,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapgenerator.cpp" />
     <ClCompile Include="setting.cpp" />
+    <ClCompile Include="vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="block.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="mapgenerator.h" />
     <ClInclude Include="setting.h" />
+    <ClInclude Include="vector3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="img\material.bmp3" />

@@ -1,9 +1,11 @@
 ﻿#include <GL/glut.h>
 #include <windows.h>
+#include <vector>
 #include "inputprocess.h"
 #include "character.h"
 #include "blocktype.h"
 #include "map.h"
+#include "vector3D.h"
 
 bool mouseActive, leftButtonPressed;
 int leftButtonTimer;
@@ -129,6 +131,15 @@ void inputIdleFunc() {
 			leftButtonPressed = false;
 		}
 	}
+
+    Point3Di target;
+	bool hasTargetBlock = getTargetBlock(target);
+	if (!hasTargetBlock) target.z = -1;
+	worldMap.setTargetBlock(target);
+
+	if (!(hasTargetBlock && getDropPos(target)))
+		target.z = -1;
+	worldMap.setDropBlock(target);
 }
 
 bool getTargetBlock(Point3Di& target) {
@@ -148,3 +159,75 @@ bool getTargetBlock(Point3Di& target) {
 	return false;
 }
 
+
+bool inBlock(Point3D p, Point3Di block) {
+	return block.x - eps <= p.x && p.x <= block.x + 1.0 + eps
+		&& block.y - eps <= p.y && p.y <= block.y + 1.0 + eps
+		&& block.z - eps <= p.z && p.z <= block.z + 1.0 + eps;
+}
+bool getDropPos(Point3Di& target) {
+	Point3D cube[8] = {
+		{ 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0}, 
+		{ 0.0, 1.0, 1.0 }, { 0.0, 0.0, 1.0}, 
+		{ 1.0, 0.0, 0.0 }, { 1.0, 1.0, 0.0}, 
+		{ 1.0, 1.0, 1.0 }, { 1.0, 0.0, 1.0}, 
+	};
+	const int vertexsOrder[6][4] = {
+		{ 4, 5, 6, 7 }, { 1, 0, 3, 2 }, 
+		{ 0, 4, 7, 3 }, { 5, 1, 2, 6 },
+		{ 7, 6, 2, 3 }, { 4, 5, 1, 0 }
+	};
+	for (int i = 0; i < 8; i++)
+		cube[i].x += target.x, cube[i].y += target.y, cube[i].z += target.z;
+
+	Point3D watchPoint = Point3D(
+		character.getPosX(), character.getPosY(), character.getPosZ());
+	std::vector<std::pair<Point3D, int> > legalPoints;
+	for (int i = 0; i < 6; i++) {
+		Point3D p;
+		int num = LineAndArea(
+			Line3D(
+				watchPoint,
+				Point3D(character.getRefPointX(),
+					character.getRefPointY(),
+					character.getRefPointZ()
+				)
+			),
+			cube[vertexsOrder[i][0]],
+			GetV(
+				Area3D(
+					cube[vertexsOrder[i][0]],
+					cube[vertexsOrder[i][1]],
+					cube[vertexsOrder[i][2]]
+				)
+			),
+			p
+		);
+		if (num && inBlock(p, target))
+			legalPoints.push_back(std::make_pair(p, i));
+	}
+
+	if (legalPoints.empty()) 
+		return false;
+
+	float minDist = 1e18;
+	int id = 0;
+	for (auto& point : legalPoints) {
+		float d = Norm(point.first - watchPoint);
+		if (d < minDist) {
+			minDist = d;
+			id = point.second;
+		}
+	}
+
+	const int faceChange[6][3] = {
+		{ 1, 0, 0 }, { -1, 0, 0 },
+		{ 0, -1, 0 }, { 0, 1, 0 },
+		{ 0, 0, 1 }, { 0, 0, -1 }
+	};
+	
+	target.x += faceChange[id][0];
+	target.y += faceChange[id][1];
+	target.z += faceChange[id][2];
+	return true;
+}

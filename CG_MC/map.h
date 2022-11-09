@@ -32,6 +32,7 @@ public:
 	~Map();
 	block_t getBlock(int x, int y, int z);
 	void setTargetBlock(Point3Di target);
+	void setDropBlock(Point3Di drop);
 	void changePos(int x, int y);
 	void render()const;
 	void removeTargetBlock();
@@ -39,7 +40,7 @@ public:
 	void saveFile()const;
 private:
 	int watchPosX, watchPosY;
-	Point3Di targetBlock;
+	Point3Di targetBlock, dropBlock;
 	typedef unsigned int MapBlockID;
 	std::map<MapBlockID, MapBlock*> mapBlocks;
 	ModifiedBlocks modified;

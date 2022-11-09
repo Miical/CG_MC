@@ -65,6 +65,10 @@ void Map::setTargetBlock(Point3Di target) {
 	targetBlock = target;
 }
 
+void Map::setDropBlock(Point3Di drop) {
+	dropBlock = drop;
+}
+
 void Map::changePos(int x, int y) {
 	watchPosX = x; watchPosY = y;
 	int lx = x - RENDER_RANGE / 2, ly  = y - RENDER_RANGE / 2;
@@ -110,6 +114,8 @@ void Map::render()const {
 				if (lx <= x && x < rx && ly <= y && y <= ry) {
 					for (int z = 0; z < WORLD_HEIGHT; z++) {
 						block_t type = mapBlock.second->getBlock(x, y, z);
+						if (x == dropBlock.x && y == dropBlock.y && z == dropBlock.z)
+							DIRT.renderTargetBlock(x, y, z);
 						if (type != AIR)
 							if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
 								BLOCKS[type]->renderTargetBlock(x, y, z);

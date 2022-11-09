@@ -91,12 +91,8 @@ void idleFcn(void) {
         VX, VY, VZ
     );
 
-    Point3Di target;
-    if (!getTargetBlock(target)) target.z = -1;
-    worldMap.setTargetBlock(target);
-
-    character.idleStateProcessing(worldMap);
 	inputIdleFunc();
+    character.idleStateProcessing(worldMap);
     glutPostRedisplay();
 }
 
@@ -131,7 +127,7 @@ int main(int argc, char* argv[]) {
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
     glutInitWindowSize(winWidth, winHeight);
     glutInitWindowPosition(150, 80);
-    glutCreateWindow("GC_MC");
+    glutCreateWindow("CG_MC");
 
     atexit(exitFunc);
 
