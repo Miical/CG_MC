@@ -114,11 +114,11 @@ void specialKeyFunc(int key, int x, int y) {
 		upOrDownPressed = true;
 		break;
 	case GLUT_KEY_LEFT:
-		currentType = (currentType + BLOCK_TYPE_NUM - 1) % BLOCK_TYPE_NUM;
+		currentType = (currentType + BLOCK_TYPE_NUM - 2) % BLOCK_TYPE_NUM + 1;
 		printf("%d\n", currentType);
 		break;
 	case GLUT_KEY_RIGHT:
-		currentType = (currentType + 1) % BLOCK_TYPE_NUM;
+		currentType = currentType % BLOCK_TYPE_NUM + 1;
 		printf("%d\n", currentType);
 		break;
 	default:
@@ -154,7 +154,7 @@ void initInput() {
 	leftButtonPressed = false;
 	upOrDownPressed = false;
 	walkKeyPressed = false;
-	currentType = 0;
+	currentType = 1;
 	currentDirect = 0;
 	currentUpDown = 0;
 }

@@ -9,7 +9,7 @@ block_t MapGenerator::getBlock(int x, int y, int z)const {
 	srand(x * y * z + x + y + z); 
 	for (int i = 1; i <= 5; i++) rand();
 	if (rand() % 10 < 5)
-		return rand() % 5;
+		return rand() % 5 + 1;
 	else
 		return AIR;
 }

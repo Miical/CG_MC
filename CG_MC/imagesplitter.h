@@ -13,7 +13,7 @@ public:
 		return originImg->width / gridWidth;
 	}
 	int rowCount()const {
-		return originImg->height/ gridHeight;
+		return originImg->height / gridHeight;
 	}
 	int convertToID(int row, int column)const {
 		return row * columnCount() + column;

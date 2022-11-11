@@ -32,7 +32,7 @@ void Character::reverseFly() { flying = !flying; }
 /// <param name="type">方块类型</param>
 /// <returns>若无冲突返回true，否则返回false</returns>
 bool Character::legalPosToPlaceBlock(int x, int y, int z, block_t type) {
-	if (type >= BLOCK_TYPE_NUM) 
+	if (type <= 0 && BLOCK_TYPE_NUM < type) 
 		return false;
 	float tx = pos[0], ty = pos[1], tz = pos[2];
 	tz -= 0.25f;
