@@ -185,7 +185,8 @@ void inputIdleFunc() {
 	// 人物行走
 	if (walkKeyPressed) {
 		character.walk(WALK_SPEED, currentDirect, worldMap);
-		worldMap.changePos(character.getPosX(), character.getPosY());
+		worldMap.changePos(
+			character.getPosX(), character.getPosY(), character.getPosZ());
 	}
 
 	// 人物上升下降

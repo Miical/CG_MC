@@ -28,19 +28,19 @@ private:
 
 class Map {
 public:
-	Map(int watchPosX_, int watchPosY_);
+	Map(int watchPosX_, int watchPosY_, int watchPosZ_);
 	~Map();
 	block_t getBlock(int x, int y, int z);
 	void setTargetBlock(Point3Di target);
 	void setDropBlock(Point3Di drop);
-	void changePos(int x, int y);
+	void changePos(int x, int y, int z);
 	void render()const;
 	void removeTargetBlock();
 	void placeBlock(int type);
 
 	void saveFile()const;
 private:
-	int watchPosX, watchPosY;
+	int watchPosX, watchPosY, watchPosZ;
 	Point3Di targetBlock, dropBlock;
 	typedef unsigned int MapBlockID;
 	std::map<MapBlockID, MapBlock*> mapBlocks;

@@ -1,10 +1,10 @@
-#include <fstream>
+﻿#include <fstream>
 #include <iostream>
 #include "blocktype.h"
 #include "map.h"
 #include "mapgenerator.h"
 
-Map worldMap(INIT_POS[0], INIT_POS[1]);
+Map worldMap(INIT_POS[0], INIT_POS[1], INIT_POS[2]);
 
 MapBlock::MapBlock(int posX_, int posY_, ModifiedBlocks& modified_): 
 	posX(posX_), posY(posY_), modified(modified_) {
@@ -47,9 +47,9 @@ int MapBlock::getID(int x, int y, int z)const {
 	return z * (MAP_BLOCK_SIZE * MAP_BLOCK_SIZE) + y * MAP_BLOCK_SIZE + x;
 }
 
-Map::Map(int watchPosX_, int watchPosY_) {
+Map::Map(int watchPosX_, int watchPosY_, int watchPosZ_) {
 	loadFile();
-	changePos(watchPosX_, watchPosY_);
+	changePos(watchPosX_, watchPosY_, watchPosZ_);
 	targetBlock.x = 0; targetBlock.y = 0; targetBlock.z = -1;
 }
 
@@ -69,8 +69,8 @@ void Map::setDropBlock(Point3Di drop) {
 	dropBlock = drop;
 }
 
-void Map::changePos(int x, int y) {
-	watchPosX = x; watchPosY = y;
+void Map::changePos(int x, int y, int z) {
+	watchPosX = x; watchPosY = y; watchPosZ = z;
 	int lx = x - RENDER_RANGE / 2, ly  = y - RENDER_RANGE / 2;
 	for (auto mapBlock = mapBlocks.begin(); mapBlock != mapBlocks.end();) {
 		if (!validMapBlock(mapBlock->second)) {
@@ -102,27 +102,73 @@ void Map::changePos(int x, int y) {
 }
 
 void Map::render()const {
+
+	// 遍历所有地图块，加载方块数据
+
+	block_t* blocks = new block_t[RENDER_RANGE * RENDER_RANGE * WORLD_HEIGHT];
 	int lx = watchPosX - RENDER_RANGE / 2, ly = watchPosY - RENDER_RANGE / 2;
 	int rx = lx + RENDER_RANGE, ry = ly + RENDER_RANGE;
 	for (auto& mapBlock : mapBlocks) {
 		for (int i = 0, x = mapBlock.second->getPosX(); 
 			i < MAP_BLOCK_SIZE; i++, x++) {
-
+			
 			for (int j = 0, y = mapBlock.second->getPosY(); 
 				j < MAP_BLOCK_SIZE; j++, y++) {
 				
-				if (lx <= x && x < rx && ly <= y && y <= ry) {
+				if (lx <= x && x < rx && ly <= y && y < ry) {
 					for (int z = 0; z < WORLD_HEIGHT; z++) {
 						block_t type = mapBlock.second->getBlock(x, y, z);
-						if (type != AIR)
-							if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
-								BLOCKS[type]->renderTargetBlock(x, y, z);
-							else BLOCKS[type]->render(x, y, z);
+						blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+							+ (y - ly) * WORLD_HEIGHT + z] = type;
 					}
 				}
 			}
 		}
 	}
+
+	// 由远到近渲染方块，保证透明材质颜色信息正确性
+
+	const int dx[] = { -1, 0, 1, 0 };
+	const int dy[] = { 0, 1, 0, -1 };
+	int currentDirect = 0, num = RENDER_RANGE * RENDER_RANGE;
+	int x = rx - 1, y = ly;
+	
+	while (num--) {
+		// 从低处和高处分别渲染至当前高度
+		for (int z = 0; z <= watchPosZ; z++) {
+			block_t& t = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+				+ (y - ly) * WORLD_HEIGHT + z];
+			if (t != AIR)
+				if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
+					BLOCKS[t]->renderTargetBlock(x, y, z);
+				else BLOCKS[t]->render(x, y, z);
+			t = INVALID_BLOCK;
+		}
+		for (int z = WORLD_HEIGHT - 1; z > watchPosZ; z--) {
+			block_t& t = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+				+ (y - ly) * WORLD_HEIGHT + z];
+			if (t != AIR)
+				if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
+					BLOCKS[t]->renderTargetBlock(x, y, z);
+				else BLOCKS[t]->render(x, y, z);
+			t = INVALID_BLOCK;
+		}
+
+		// 获取下一个待渲染方块位置
+		int nxtY = y + dy[currentDirect], nxtX = x + dx[currentDirect];
+		if (lx <= nxtX && nxtX < rx && ly <= nxtY && nxtY < ry) {
+			block_t& t = blocks[(nxtX - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+				+ (nxtY - ly) * WORLD_HEIGHT];
+			if (t != INVALID_BLOCK) {
+				y = nxtY; x = nxtX;
+				continue;
+			}
+		} 
+		currentDirect = (currentDirect + 1) % 4;
+		y = y + dy[currentDirect], x = x + dx[currentDirect];
+	}
+
+	delete[] blocks;
 }
 
 void Map::removeTargetBlock() {
