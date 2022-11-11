@@ -16,6 +16,7 @@ void BlockBase::renderTargetBlock(float x, float y, float z)const {
 	};
 
 	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
 	glColor3f(0.0, 0.0, 0.0);
 	glLineWidth(4.0);
 	glMatrixMode(GL_MODELVIEW);
@@ -29,12 +30,18 @@ void BlockBase::renderTargetBlock(float x, float y, float z)const {
 	}
 	glEnd();
 	glPopMatrix();
+	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_LIGHTING);
 	glColor3f(1.0, 1.0, 1.0);
 }
 
 Block::Block(const int texture_[6]) : BlockBase(1, 1, 1) {
 	memcpy(texture, texture_, sizeof(texture));
+}
+
+Block::Block(const int texture_) : BlockBase(1, 1, 1) {
+	for (int i = 0; i < 6; i++)
+		texture[i] = texture_;
 }
 
 void Block::render(float x, float y, float z)const {
@@ -64,4 +71,50 @@ void Block::render(float x, float y, float z)const {
 		glEnd();
 	}
 	glPopMatrix();
+}
+	
+Leaves::Leaves(int texture_) : Block(texture_) {}
+
+void Leaves::render(float x, float y, float z)const {
+	glEnable(GL_BLEND);
+	glDepthMask(GL_FALSE);
+
+	Block::render(x, y, z);
+
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
+}
+
+
+
+Plant::Plant(int texture_) : texture(texture_), BlockBase(1, 1, 1) {}
+
+void Plant::render(float x, float y, float z)const {
+	glEnable(GL_BLEND);
+	glDepthMask(GL_FALSE);
+	const vertex3f cube[2][4] = {
+		{{ 0.5, 0, -0.5 }, { -0.5, 0, -0.5 }, { -0.5, 0, 0.5}, { 0.5, 0, 0.5}},
+		{{ 0, -0.5, -0.5 }, { 0, 0.5, -0.5}, { 0, 0.5, 0.5 }, { 0, -0.5, 0.5}}
+	};
+	const vertex3f normals[2] = {
+		{ 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f, 1.0f }
+	};
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glTranslated(x + 0.5f, y + 0.5f, z + 0.5f);
+	glBindTexture(GL_TEXTURE_2D, TEXTURE[texture]);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	for (int i = 0; i < 2; i++) {
+		glBegin(GL_QUADS);
+			glNormal3f(normals[i][0], normals[i][1], normals[i][2]);
+			glTexCoord2f(0.0f, 0.0f); glVertex3fv(cube[i][0]);
+			glTexCoord2f(1.0f, 0.0f); glVertex3fv(cube[i][1]);
+			glTexCoord2f(1.0f, 1.0f); glVertex3fv(cube[i][2]);
+			glTexCoord2f(0.0f, 1.0f); glVertex3fv(cube[i][3]);
+		glEnd();
+	}
+	glPopMatrix();
+	glDepthMask(GL_TRUE);
+	glDisable(GL_BLEND);
 }

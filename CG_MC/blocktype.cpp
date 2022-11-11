@@ -30,6 +30,7 @@ void initTexture() {
     TEXTURE[21] = loadTexture(splitter.getImage(42, 10));
 
     TEXTURE[22] = loadTexture(splitter.getImage(40, 4));
+    TEXTURE[23] = loadTexture(splitter.getImage(41, 8));
 
     glMaterialfv(GL_FRONT, GL_AMBIENT, BLOCK_MAT_AMBIENT);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, BLOCK_MAT_DIFFUSE);
@@ -40,9 +41,9 @@ void initTexture() {
 
 const block_t AIR = 255;
 
-const block_t BLOCK_TYPE_NUM = 6;
+const block_t BLOCK_TYPE_NUM = 7;
 const BlockBase* BLOCKS[] = {
-    &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE, &OAK_LEAVES
+    &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE, &OAK_LEAVES, &GRASS_PLANT
 };
 
 const int DIRT_TEXTURE[6] = { 2, 2, 2, 2, 2, 2 };
@@ -55,9 +56,10 @@ const int OAK_WOOD_PLANK_TEXTURE[6] = { 4, 4, 4, 4, 4, 4 };
 const Block OAK_WOOD_PLANK(OAK_WOOD_PLANK_TEXTURE);
 const int COBBLESTONE_TEXTURE[6] = { 11, 11, 11, 11, 11, 11 };
 const Block COBBLESTONE(COBBLESTONE_TEXTURE);
-const int OAK_LEAVES_TEXTURE[6] = { 22, 22, 22, 22, 22, 22 };
-const Block OAK_LEAVES(OAK_LEAVES_TEXTURE);
-
+const int OAK_LEAVES_TEXTURE = 22;
+const Leaves OAK_LEAVES(OAK_LEAVES_TEXTURE);
+const int GRASS_PLANT_TEXTURE = 23;
+const Plant GRASS_PLANT(GRASS_PLANT_TEXTURE);
 
 
 GLuint loadTexture(Image* image) {

@@ -19,8 +19,8 @@ private:
 class Block : public BlockBase {
 public:
 	Block(const int texture_[6]);
+	Block(const int texture_);
 	void render(float x, float y, float z)const override;
-	// void renderHighlightedBlock(float x, float y, float z)const override;
 private:
 	int texture[6]; // 六个面的材质 前后左右上下
 	typedef GLfloat vertex3[3];
@@ -30,6 +30,20 @@ private:
 		{ 0.5, -0.5, -0.5 }, { 0.5, 0.5, -0.5}, 
 		{ 0.5, 0.5, 0.5 }, { 0.5, -0.5, 0.5}, 
 	};
+};
+
+class Leaves : public Block {
+public:
+	Leaves(int texture_);
+	void render(float x, float y, float z) const override;
+};
+
+class Plant : public BlockBase {
+public:
+	Plant(int texture);
+	void render(float x, float y, float z) const override;
+private:
+	int texture;
 };
 
 #endif
