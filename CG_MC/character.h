@@ -17,7 +17,7 @@ public:
 	float getGama()const;
 	bool isFlying()const;
 	bool isJumping()const;
-	bool legalPosToPlaceBlock(int x, int y, int z);
+	bool legalPosToPlaceBlock(int x, int y, int z, block_t type);
 	void reverseFly();
 
 	void upOrDown(float dist, Map& world);

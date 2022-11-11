@@ -177,7 +177,8 @@ void inputIdleFunc() {
 
 	// 定位待放置方块位置
 	if (!hasTargetBlock || !getDropPos(target)
-		|| !character.legalPosToPlaceBlock(target.x, target.y, target.z)
+		|| !character.legalPosToPlaceBlock(
+			target.x, target.y, target.z, currentType)
 		|| worldMap.getBlock(target.x, target.y, target.z) != AIR)
 		target.z = -1;
 	worldMap.setDropBlock(target);
