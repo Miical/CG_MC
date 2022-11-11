@@ -19,6 +19,7 @@ extern const Block GRASS;
 extern const Block STONE;
 extern const Block OAK_WOOD_PLANK;
 extern const Block COBBLESTONE;
+extern const Block OAK_LEAVES;
 
 void initTexture();
 GLuint loadTexture(Image* image);

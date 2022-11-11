@@ -29,6 +29,8 @@ void initTexture() {
     TEXTURE[20] = loadTexture(splitter.getImage(42, 9));
     TEXTURE[21] = loadTexture(splitter.getImage(42, 10));
 
+    TEXTURE[22] = loadTexture(splitter.getImage(40, 4));
+
     glMaterialfv(GL_FRONT, GL_AMBIENT, BLOCK_MAT_AMBIENT);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, BLOCK_MAT_DIFFUSE);
     glMaterialfv(GL_FRONT, GL_SPECULAR, BLOCK_MAT_SPECULAR);
@@ -38,9 +40,9 @@ void initTexture() {
 
 const block_t AIR = 255;
 
-const block_t BLOCK_TYPE_NUM = 5;
+const block_t BLOCK_TYPE_NUM = 6;
 const BlockBase* BLOCKS[] = {
-    &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE
+    &DIRT, &GRASS, &STONE, &OAK_WOOD_PLANK, &COBBLESTONE, &OAK_LEAVES
 };
 
 const int DIRT_TEXTURE[6] = { 2, 2, 2, 2, 2, 2 };
@@ -53,7 +55,8 @@ const int OAK_WOOD_PLANK_TEXTURE[6] = { 4, 4, 4, 4, 4, 4 };
 const Block OAK_WOOD_PLANK(OAK_WOOD_PLANK_TEXTURE);
 const int COBBLESTONE_TEXTURE[6] = { 11, 11, 11, 11, 11, 11 };
 const Block COBBLESTONE(COBBLESTONE_TEXTURE);
-
+const int OAK_LEAVES_TEXTURE[6] = { 22, 22, 22, 22, 22, 22 };
+const Block OAK_LEAVES(OAK_LEAVES_TEXTURE);
 
 
 
@@ -64,10 +67,10 @@ GLuint loadTexture(Image* image) {
     //Map the image to the texture
     glTexImage2D(GL_TEXTURE_2D,                //Always GL_TEXTURE_2D
         0,                            //0 for now
-        GL_RGB,                       //Format OpenGL uses for image
+        GL_RGBA,                       //Format OpenGL uses for image
         image->width, image->height,  //Width and height
         0,                            //The border of the image
-        GL_RGB, //GL_RGB, because pixels are stored in RGB format
+        GL_RGBA, //GL_RGB, because pixels are stored in RGB format
         GL_UNSIGNED_BYTE, //GL_UNSIGNED_BYTE, because pixels are stored
         //as unsigned numbers
         image->pixels);               //The actual pixel data

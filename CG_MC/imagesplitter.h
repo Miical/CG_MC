@@ -25,6 +25,8 @@ public:
 private:
 	const Image* originImg; 
 	int gridHeight, gridWidth;
+
+	static void convertToRGBA(Image* img);
 };
 
 #endif

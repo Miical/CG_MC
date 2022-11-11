@@ -56,10 +56,6 @@ void displayFcn() {
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_DEPTH_TEST);
     glPopMatrix();
 
     // 物体
@@ -78,7 +74,7 @@ void reshapeFcn(GLint newWidth, GLint newHeight) {
     winHeight = newHeight;
 }
 
-void idleFcn(void) {
+void idleFcn() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     gluLookAt(
@@ -113,8 +109,14 @@ void init(void) {
     glMatrixMode(GL_PROJECTION);
     glFrustum(XW_MIN, XW_MAX, YW_MIN, YW_MAX, D_NEAR, D_FAR);
 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_BLEND); 
     glEnable(GL_NORMALIZE);
     glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_DEPTH_TEST);
 
     initTexture();
     initInput();
@@ -124,10 +126,20 @@ void exitFunc() {}
 
 int main(int argc, char* argv[]) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(winWidth, winHeight);
     glutInitWindowPosition(150, 80);
     glutCreateWindow("CG_MC");
+
+    /*
+    glutGameModeString("1280x768");
+    if (glutGameModeGet(GLUT_GAME_MODE_POSSIBLE))
+        glutEnterGameMode();
+    else {
+        printf("The select mode is not available\n");
+        exit(1);
+    }
+    */
 
     atexit(exitFunc);
 

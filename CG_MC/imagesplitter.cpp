@@ -16,7 +16,9 @@ Image* ImageSplitter::getImage(int row, int column)const {
 			}
 		}
 	}
-	return new Image(pixels, gridWidth, gridHeight);
+	Image* img = new Image(pixels, gridWidth, gridHeight);
+	convertToRGBA(img);
+	return img;
 }
 
 Image* ImageSplitter::getImage(int id)const {
@@ -41,8 +43,30 @@ Image* ImageSplitter::getImage(const std::vector<int>& id, bool horizontal)const
 		}
 		delete img;
 	}
+	Image* img;
 	if (horizontal)
-		return new Image(pixels, gridWidth * id.size(), gridHeight); 
+		img = new Image(pixels, gridWidth * id.size(), gridHeight); 
 	else 
-		return new Image(pixels, gridWidth, gridHeight * id.size());
+		img = new Image(pixels, gridWidth, gridHeight * id.size());
+	convertToRGBA(img);
+	return img;
+}
+
+void ImageSplitter::convertToRGBA(Image* img) {
+	int pixelsNum = img->height * img->width;
+	char* pixels = new char [pixelsNum * 4];
+	for (int i = 0; i < pixelsNum; i++) {
+		char& R = img->pixels[i * 3],
+			& G = img->pixels[i * 3 + 1],
+			& B = img->pixels[i * 3 + 2];
+		bool isTransparent = (unsigned char(R) == 0xff
+			&& unsigned char(G) == 0xff
+			&& unsigned char(B) == 0xff);
+		pixels[i * 4] = R;
+		pixels[i * 4 + 1] = G;
+		pixels[i * 4 + 2] = B;
+		pixels[i * 4 + 3] = isTransparent ? 0 : 255;
+	}
+	delete[] img->pixels;
+	img->pixels = pixels;
 }
