@@ -17,8 +17,8 @@ const GLfloat XW_MIN = -2.4f * VISION, YW_MIN = -1.4f * VISION,
     XW_MAX = 2.4f * VISION, YW_MAX = 1.4f * VISION;
 const GLfloat D_NEAR = 0.20f, D_FAR = 100.0f;
 
-const GLfloat SPEED_Z = 0.1f;
-const GLfloat WALK_SPEED = 0.1f;
+const GLfloat SPEED_Z = 0.06f;
+const GLfloat WALK_SPEED = 0.06f;
 const GLfloat MOUSE_SPEED = 1.5f;
 const GLfloat FALLINT_SPEED = 0.1f;
 

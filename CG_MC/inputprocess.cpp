@@ -7,27 +7,27 @@
 #include "map.h"
 #include "vector3D.h"
 
-bool mouseActive, leftButtonPressed;
-int leftButtonTimer;
+bool mouseActive, leftButtonPressed, walkKeyPressed, upOrDownPressed;
+int leftButtonTimer, currentDirect, currentUpDown;
 block_t currentType;
 
 void keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'w':
-		character.walk(WALK_SPEED, 0, worldMap);
-		worldMap.changePos(character.getPosX(), character.getPosY());
+		walkKeyPressed = true;
+		currentDirect = 0;
 		break;
 	case 'a':
-		character.walk(WALK_SPEED, 1, worldMap);
-		worldMap.changePos(character.getPosX(), character.getPosY());
+		walkKeyPressed = true;
+		currentDirect = 1;
 		break;
 	case 's':
-		character.walk(WALK_SPEED, 2, worldMap);
-		worldMap.changePos(character.getPosX(), character.getPosY());
+		walkKeyPressed = true;
+		currentDirect = 2;
 		break;
 	case 'd':
-		character.walk(WALK_SPEED, 3, worldMap);
-		worldMap.changePos(character.getPosX(), character.getPosY());
+		walkKeyPressed = true;
+		currentDirect = 3;
 		break;
 	case 'm':
 		character.reverseFly();
@@ -45,6 +45,19 @@ void keyboardFunc(unsigned char key, int x, int y) {
 		break;
 	case '~':
 		exit(0);
+		break;
+	default:
+		break;
+	}
+}
+
+void keyboardUpFunc(unsigned char key, int x, int y) {
+	switch (key) {
+	case 'w':
+	case 'a':
+	case 's':
+	case 'd':
+		walkKeyPressed = false;
 		break;
 	default:
 		break;
@@ -93,16 +106,12 @@ void mouseMotionFunc(int x, int y) {
 void specialKeyFunc(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_DOWN:
-		if (character.isFlying()) {
-			character.upOrDown(-SPEED_Z, worldMap);
-			glutPostRedisplay();
-		}
+		currentUpDown = 0;
+		upOrDownPressed = true;
 		break;
 	case GLUT_KEY_UP:
-		if (character.isFlying()) {
-			character.upOrDown(SPEED_Z, worldMap);
-			glutPostRedisplay();
-		}
+		currentUpDown = 1;
+		upOrDownPressed = true;
 		break;
 	case GLUT_KEY_LEFT:
 		currentType = (currentType + BLOCK_TYPE_NUM - 1) % BLOCK_TYPE_NUM;
@@ -117,12 +126,25 @@ void specialKeyFunc(int key, int x, int y) {
 	}
 }
 
+void specialUpFunc(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_UP:
+	case GLUT_KEY_DOWN:
+		upOrDownPressed = false;
+		break;
+	default:
+		break;
+	}
+}
+
 void initInput() {
 	glutKeyboardFunc(keyboardFunc);
 	glutMouseFunc(mouseFunc);
 	glutPassiveMotionFunc(passiveMotionFunc);
 	glutMotionFunc(mouseMotionFunc);
+	glutKeyboardUpFunc(keyboardUpFunc);
 	glutSpecialFunc(specialKeyFunc);
+	glutSpecialUpFunc(specialUpFunc);
 
 	glutWarpPointer(winWidth / 2, winHeight / 2);
 	glutSetCursor(GLUT_CURSOR_NONE);
@@ -130,10 +152,15 @@ void initInput() {
 	mouseActive = true;
 	leftButtonTimer = 0;
 	leftButtonPressed = false;
+	upOrDownPressed = false;
+	walkKeyPressed = false;
 	currentType = 0;
+	currentDirect = 0;
+	currentUpDown = 0;
 }
 
 void inputIdleFunc() {
+	// 鼠标左键长按拆除方块
 	if (leftButtonPressed) {
 		leftButtonTimer++;
 		if (leftButtonTimer > 15) {
@@ -142,16 +169,29 @@ void inputIdleFunc() {
 		}
 	}
 
+	// 定位目标方块
     Point3Di target;
 	bool hasTargetBlock = getTargetBlock(target);
 	if (!hasTargetBlock) target.z = -1;
 	worldMap.setTargetBlock(target);
 
+	// 定位待放置方块位置
 	if (!hasTargetBlock || !getDropPos(target)
 		|| !character.legalPosToPlaceBlock(target.x, target.y, target.z)
 		|| worldMap.getBlock(target.x, target.y, target.z) != AIR)
 		target.z = -1;
 	worldMap.setDropBlock(target);
+
+	// 人物行走
+	if (walkKeyPressed) {
+		character.walk(WALK_SPEED, currentDirect, worldMap);
+		worldMap.changePos(character.getPosX(), character.getPosY());
+	}
+
+	// 人物上升下降
+	if (character.isFlying() && upOrDownPressed)
+		character.upOrDown(
+			(currentUpDown == 0 ? -1.0 : 1.0) * SPEED_Z, worldMap);
 }
 
 bool getTargetBlock(Point3Di& target) {
