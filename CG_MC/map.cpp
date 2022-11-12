@@ -101,6 +101,9 @@ void Map::changePos(int x, int y, int z) {
 	}
 }
 
+/// <summary>
+/// 渲染整张地图。
+/// </summary>
 void Map::render()const {
 
 	// 遍历所有地图块，加载方块数据

@@ -113,7 +113,7 @@ bool Character::legalPos(float x, float y, float z, Map& world)const {
 		for (float px = x - 0.3f; px <= x + 0.3f + eps; px += 0.3f) {
 			for (float py = y - 0.3f; py <= y + 0.3f + eps; py += 0.3f) {
 				if (abs(px) <= eps || abs(py) <= eps) continue;
-				if (z <= 0.0f || WORLD_HEIGHT <= z) return false;
+				if (pz <= 0.0f || WORLD_HEIGHT <= pz) return false;
 
 				int type = world.getBlock(floor(px), floor(py), floor(pz));
 				if (type != AIR && BLOCKS[type]->containPoint(

@@ -205,6 +205,7 @@ bool getTargetBlock(Point3Di& target) {
 
 	for (int i = 0; i < 20; i++) {
 		now.x += direct.x / 4.0f; now.y += direct.y / 4.0f; now.z += direct.z / 4.0f;
+		if (now.z <= 0.0f) break;
 		if (worldMap.getBlock(floor(now.x), floor(now.y), floor(now.z)) != AIR) {
 			target.x = floor(now.x), target.y = floor(now.y), target.z = floor(now.z);
 			return true;
