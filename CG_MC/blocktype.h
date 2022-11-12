@@ -15,14 +15,6 @@ extern const block_t AIR;
 extern const block_t BLOCK_TYPE_NUM;
 extern const BlockBase* BLOCKS[];
 
-extern const Block DIRT;
-extern const Block GRASS;
-extern const Block STONE;
-extern const Block OAK_WOOD_PLANK;
-extern const Block COBBLESTONE;
-extern const Leaves OAK_LEAVES;
-extern const Plant GRASS_PLANT;
-
 void initTexture();
 GLuint loadTexture(Image* image);
 
