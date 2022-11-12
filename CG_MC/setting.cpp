@@ -22,7 +22,7 @@ const GLfloat WALK_SPEED = 0.06f;
 const GLfloat MOUSE_SPEED = 1.5f;
 const GLfloat FALLINT_SPEED = 0.1f;
 
-const int WORLD_HEIGHT = 32;
+const int WORLD_HEIGHT = 64;
 const int MAP_BLOCK_SIZE = 16;
 const int RENDER_RANGE = 2 * MAP_BLOCK_SIZE; 
 

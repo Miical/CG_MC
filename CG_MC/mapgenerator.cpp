@@ -8,8 +8,8 @@ block_t MapGenerator::getBlock(int x, int y, int z)const {
 	if (z > 5) return AIR;
 	srand(x * y * z + x + y + z); 
 	for (int i = 1; i <= 5; i++) rand();
-	if (rand() % 10 < 7)
-		return 2;
+	if (rand() % 10 < 10)
+		return 18;
 	else
 		return AIR;
 }
