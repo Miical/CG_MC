@@ -11,7 +11,7 @@ Character::Character() {
 	alpha = ALPHA; 
 	gama = GAMA;
 	flying = false;
-	jumping = 0;
+	jumping = 0.0;
 }
 
 float Character::getPosX()const { return pos[0]; }
@@ -23,7 +23,7 @@ float Character::getRefPointZ()const { return pos[2] + cosf(gama); }
 float Character::getAlpha()const { return alpha; }
 float Character::getGama()const { return gama; }
 bool Character::isFlying()const { return flying;  }
-bool Character::isJumping()const { return jumping; }
+bool Character::isJumping()const { return jumping > 0.0; }
 void Character::reverseFly() { flying = !flying; }
 
 /// <summary>
@@ -79,13 +79,13 @@ void Character::walk(float dist, int direct, Map& world) {
 		newPosY = pos[1] + dist * sinf(angle);
 	if (legalPos(newPosX, newPosY, pos[2], world))
 		pos[0] = newPosX, pos[1] = newPosY;
-	else if (!flying && !jumping)
+	else if (!flying && !isJumping())
 		autoJump(world);
 }
 
 void Character::jump(Map& world) {
 	if (!legalPos(pos[0], pos[1], pos[2] - 0.1f, world))
-		jumping = 13;
+		jumping = 13.0;
 }
 
 bool Character::autoJump(Map& world) {
@@ -94,7 +94,7 @@ bool Character::autoJump(Map& world) {
 		newPosZ = pos[2] + 1.05f;
 	if (legalPos(newPosX, newPosY, newPosZ, world)) {
 		if (!legalPos(pos[0], pos[1], pos[2] - 0.4f, world)) {
-			jumping = 8;
+			jumping = 8.0;
 			return true;
 		}
 	}
@@ -125,18 +125,19 @@ bool Character::legalPos(float x, float y, float z, Map& world)const {
 	return true;
 }
 
-void Character::idleStateProcessing(Map& world) {
+void Character::idleStateProcessing(Map& world, float speedRatio) {
 	if (!flying) {
-		if (!jumping && legalPos(pos[0], pos[1], pos[2] - FALLINT_SPEED, world))
-			pos[2] -= FALLINT_SPEED;
-		if (jumping) {
-			const float interval = 0.15f;
+		if (!isJumping() && legalPos(pos[0], pos[1],
+			pos[2] - FALLING_SPEED * speedRatio, world))
+			pos[2] -= FALLING_SPEED * speedRatio;
+		if (jumping > 0.0) {
+			const float interval = 0.15f * speedRatio;
 			if (legalPos(pos[0], pos[1], pos[2] + interval, world)) {
 				pos[2] += interval;
-				jumping--;
+				jumping -= speedRatio;
 			}
 			else {
-				jumping = 0;
+				jumping = -1.0;
 			}
 
 		}

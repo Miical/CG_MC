@@ -26,12 +26,12 @@ public:
 	void jump(Map& world);
 	bool autoJump(Map& world);
 
-	void idleStateProcessing(Map& world);
+	void idleStateProcessing(Map& world, float speedRatio);
 private:
 	vertex3f pos;
 	float alpha, gama;
 	bool flying;
-	int jumping;
+	float jumping;
 
 	bool legalPos(float x, float y, float z, Map& world)const;
 };

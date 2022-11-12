@@ -21,10 +21,11 @@ extern const GLfloat VISION;
 extern const GLfloat XW_MIN, YW_MIN, XW_MAX, YW_MAX;
 extern const GLfloat D_NEAR, D_FAR;
 
+extern const GLfloat STANDARD_FPS;
 extern const GLfloat SPEED_Z;
 extern const GLfloat WALK_SPEED;
 extern const GLfloat MOUSE_SPEED;
-extern const GLfloat FALLINT_SPEED;
+extern const GLfloat FALLING_SPEED;
 
 extern const int MAP_BLOCK_SIZE;
 extern const int WORLD_HEIGHT;

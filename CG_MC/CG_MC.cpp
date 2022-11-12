@@ -22,7 +22,7 @@ void idleFcn() {
 
 	inputIdleFunc();
     displayIdleFunc();
-    character.idleStateProcessing(worldMap);
+    character.idleStateProcessing(worldMap, speedRatio);
 
     glutPostRedisplay();
 }

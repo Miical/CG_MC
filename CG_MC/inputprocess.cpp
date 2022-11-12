@@ -4,11 +4,13 @@
 #include "inputprocess.h"
 #include "character.h"
 #include "blocktype.h"
+#include "display.h"
 #include "map.h"
 #include "vector3D.h"
 
 bool mouseActive, leftButtonPressed, walkKeyPressed, upOrDownPressed;
 int leftButtonTimer, currentDirect, currentUpDown;
+float speedRatio;
 block_t currentType;
 
 void keyboardFunc(unsigned char key, int x, int y) {
@@ -157,6 +159,7 @@ void initInput() {
 	currentType = 1;
 	currentDirect = 0;
 	currentUpDown = 0;
+	speedRatio = 1.0;
 }
 
 void inputIdleFunc() {
@@ -185,7 +188,7 @@ void inputIdleFunc() {
 
 	// 人物行走
 	if (walkKeyPressed) {
-		character.walk(WALK_SPEED, currentDirect, worldMap);
+		character.walk(WALK_SPEED * speedRatio, currentDirect, worldMap);
 		worldMap.changePos(
 			character.getPosX(), character.getPosY(), character.getPosZ());
 	}
@@ -193,7 +196,10 @@ void inputIdleFunc() {
 	// 人物上升下降
 	if (character.isFlying() && upOrDownPressed)
 		character.upOrDown(
-			(currentUpDown == 0 ? -1.0 : 1.0) * SPEED_Z, worldMap);
+			(currentUpDown == 0 ? -1.0 : 1.0) * speedRatio * SPEED_Z, worldMap);
+
+	// 计算当前帧率速率比率
+	speedRatio = STANDARD_FPS / FPS;
 }
 
 bool getTargetBlock(Point3Di& target) {
@@ -214,12 +220,12 @@ bool getTargetBlock(Point3Di& target) {
 	return false;
 }
 
-
 bool inBlock(Point3D p, Point3Di block) {
 	return block.x - eps <= p.x && p.x <= block.x + 1.0 + eps
 		&& block.y - eps <= p.y && p.y <= block.y + 1.0 + eps
 		&& block.z - eps <= p.z && p.z <= block.z + 1.0 + eps;
 }
+
 bool getDropPos(Point3Di& target) {
 	Point3D cube[8] = {
 		{ 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0}, 
