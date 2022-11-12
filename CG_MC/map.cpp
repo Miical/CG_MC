@@ -102,6 +102,38 @@ void Map::changePos(int x, int y, int z) {
 }
 
 /// <summary>
+/// 获取渲染掩码。
+/// </summary>
+/// <param name="blocks">方格类型数据</param>
+/// <param name="x">块内相对x坐标</param>
+/// <param name="y">块内相对y坐标</param>
+/// <param name="z">块内相对z坐标</param>
+/// <return>对应块的渲染面掩码</return>
+unsigned char Map::getRenderMask(block_t* blocks, int x, int y, int z) {
+	const int d[6][3] = {
+		{ 1, 0, 0 }, { -1, 0, 0 },
+		{ 0, -1, 0 }, { 0, 1, 0 },
+		{ 0, 0, 1 }, { 0, 0, -1 }
+	};
+	unsigned char mask = 0u;
+	for (int i = 0; i < 6; i++) {
+		int px = x + d[i][0], py = y + d[i][1], pz = z + d[i][2];
+		if (pz < 0 || WORLD_HEIGHT <= pz 
+			|| px < 0 || px >= RENDER_RANGE 
+			|| py < 0 || py >= RENDER_RANGE) {
+			mask |= (1u << i);
+			continue;
+		}
+
+		block_t type = blocks[px * (RENDER_RANGE * WORLD_HEIGHT)
+			+ py * WORLD_HEIGHT + pz];
+		if (type == AIR || !BLOCKS[type]->isFilledBlock())
+			mask |= (1u << i);
+	}
+	return mask;
+}
+
+/// <summary>
 /// 渲染整张地图。
 /// </summary>
 void Map::render()const {
@@ -133,36 +165,39 @@ void Map::render()const {
 
 	const int dx[] = { -1, 0, 1, 0 };
 	const int dy[] = { 0, 1, 0, -1 };
+	bool* vis = new bool[RENDER_RANGE * RENDER_RANGE];
 	int currentDirect = 0, num = RENDER_RANGE * RENDER_RANGE;
 	int x = rx - 1, y = ly;
 	
+	memset(vis, 0, sizeof(bool) * RENDER_RANGE * RENDER_RANGE);
 	while (num--) {
 		// 从低处和高处分别渲染至当前高度
 		for (int z = 0; z <= watchPosZ; z++) {
-			block_t& t = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+			block_t type = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
 				+ (y - ly) * WORLD_HEIGHT + z];
-			if (t != AIR)
+			if (type != AIR)
 				if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
-					BLOCKS[t]->renderTargetBlock(x, y, z);
-				else BLOCKS[t]->render(x, y, z);
-			t = INVALID_BLOCK;
+					BLOCKS[type]->renderTargetBlock(x, y, z, 
+						getRenderMask(blocks, x - lx, y - ly, z));
+				else BLOCKS[type]->render(x, y, z,
+					getRenderMask(blocks, x - lx, y - ly, z));
 		}
 		for (int z = WORLD_HEIGHT - 1; z > watchPosZ; z--) {
-			block_t& t = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
+			block_t type = blocks[(x - lx) * (RENDER_RANGE * WORLD_HEIGHT)
 				+ (y - ly) * WORLD_HEIGHT + z];
-			if (t != AIR)
+			if (type != AIR)
 				if (x == targetBlock.x && y == targetBlock.y && z == targetBlock.z)
-					BLOCKS[t]->renderTargetBlock(x, y, z);
-				else BLOCKS[t]->render(x, y, z);
-			t = INVALID_BLOCK;
+					BLOCKS[type]->renderTargetBlock(x, y, z, 
+						getRenderMask(blocks, x - lx, y - ly, z));
+				else BLOCKS[type]->render(x, y, z,
+					getRenderMask(blocks, x - lx, y - ly, z));
 		}
+		vis[(x - lx) * RENDER_RANGE + (y - ly)] = true;
 
 		// 获取下一个待渲染方块位置
 		int nxtY = y + dy[currentDirect], nxtX = x + dx[currentDirect];
 		if (lx <= nxtX && nxtX < rx && ly <= nxtY && nxtY < ry) {
-			block_t& t = blocks[(nxtX - lx) * (RENDER_RANGE * WORLD_HEIGHT)
-				+ (nxtY - ly) * WORLD_HEIGHT];
-			if (t != INVALID_BLOCK) {
+			if (!vis[(nxtX - lx) * RENDER_RANGE + (nxtY - ly)]) {
 				y = nxtY; x = nxtX;
 				continue;
 			}
@@ -171,6 +206,7 @@ void Map::render()const {
 		y = y + dy[currentDirect], x = x + dx[currentDirect];
 	}
 
+	delete[] vis;
 	delete[] blocks;
 }
 

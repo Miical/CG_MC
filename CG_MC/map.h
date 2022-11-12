@@ -1,4 +1,4 @@
-#ifndef MAP_H
+﻿#ifndef MAP_H
 #define MAP_H
 #include <map>
 #include "setting.h"
@@ -53,6 +53,8 @@ private:
 	const int saveInterval = 100;
 	int saveCountdown;
 	void loadFile();
+
+	static unsigned char getRenderMask(block_t* blocks, int x, int y, int z);
 };
 
 CompressedPos compressPos(int x, int y, int z);

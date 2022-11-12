@@ -11,7 +11,6 @@ const size_t MAX_TEXTUER_NUM = 235;
 extern GLuint TEXTURE[MAX_TEXTUER_NUM];
 
 extern const block_t AIR;
-extern const block_t INVALID_BLOCK;
 
 extern const block_t BLOCK_TYPE_NUM;
 extern const BlockBase* BLOCKS[];

@@ -8,12 +8,21 @@
 /// </summary>
 class BlockBase {
 public:
-	virtual void render(float x, float y, float z)const = 0;
-	virtual void renderTargetBlock(float x, float y, float z)const;
+	virtual void render(float x, float y, float z, unsigned char mask)const = 0;
+	virtual void renderTargetBlock(float x, float y, float z, unsigned char mask)const;
 	virtual bool containPoint(float x, float y, float z)const;
-	BlockBase(int lengthNum_, int widthNum_, int heightNum_);
+	BlockBase(int lengthNum_, int widthNum_, int heightNum_, bool filledBlock_);
+	bool isFilledBlock()const { return filledBlock; }
 private:
-	int lengthNum, widthNum, heightNum; // 高度、宽度所占格子数量
+	/// <summary>
+	/// 高度、宽度所占格子数量
+	/// </summary>
+	int lengthNum, widthNum, heightNum; 
+
+	/// <summary>
+	/// 是否为填充类型方块，若是则内部面不会被渲染。
+	/// </summary>
+	bool filledBlock;
 };
 
 /// <summary>
@@ -21,9 +30,9 @@ private:
 /// </summary>
 class Block : public BlockBase {
 public:
-	Block(const int texture_[6]);
-	Block(const int texture_);
-	void render(float x, float y, float z)const override;
+	Block(const int texture_[6], bool isFilledBlock = true);
+	Block(const int texture_, bool isFilledBlock = true);
+	void render(float x, float y, float z, unsigned char mask)const override;
 private:
 	/// <summary>
 	/// 六个面的材质，顺序为前后左右上下。
@@ -37,7 +46,7 @@ private:
 class Leaves : public Block {
 public:
 	Leaves(int texture_);
-	void render(float x, float y, float z) const override;
+	void render(float x, float y, float z, unsigned char mask) const override;
 };
 
 /// <summary>
@@ -46,7 +55,7 @@ public:
 class Plant : public BlockBase {
 public:
 	Plant(int texture);
-	void render(float x, float y, float z) const override;
+	void render(float x, float y, float z, unsigned char mask) const override;
 	bool containPoint(float x, float y, float z)const override;
 private:
 	int texture;

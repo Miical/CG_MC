@@ -7,15 +7,18 @@
 /// <param name="lengthNum_">方块高度所占格子数</param>
 /// <param name="widthNum_">方块宽度所占格子数</param>
 /// <param name="heightNum_">方块长度所占格子数</param>
-BlockBase::BlockBase( int lengthNum_, int widthNum_, int heightNum_) :
-	lengthNum(lengthNum_), heightNum(heightNum_), widthNum(widthNum_) {
-}
+/// <param name="filledBlock_">是否为填充类型的方块</param>
+BlockBase::BlockBase( int lengthNum_, int widthNum_, int heightNum_, 
+	bool filledBlock_) :
+	lengthNum(lengthNum_), heightNum(heightNum_), widthNum(widthNum_),
+	filledBlock(filledBlock_) {}
 
 /// <summary>
 /// 在(x, y, z)位置渲染被准星瞄准的方块。
 /// </summary>
-void BlockBase::renderTargetBlock(float x, float y, float z)const {
-	render(x, y, z);
+/// <param name="mask">渲染面掩码</param>
+void BlockBase::renderTargetBlock(float x, float y, float z, unsigned char mask)const {
+	render(x, y, z, mask);
 
 	const vertex3f v[8] = {
 		{ 0.0f, 0.0f, 0.0f }, { lengthNum, 0.0f, 0.0f },
@@ -57,7 +60,9 @@ bool BlockBase::containPoint(float x, float y, float z)const {
 /// Block类构造函数。
 /// </summary>
 /// <param name="texture_">六个面的材质类型，顺序为前后左右上下</param>
-Block::Block(const int texture_[6]) : BlockBase(1, 1, 1) {
+/// <param name="filledBlock_">是否为填充类型的方块</param>
+Block::Block(const int texture_[6], bool isFilledBlock_) : 
+	BlockBase(1, 1, 1, isFilledBlock_) {
 	memcpy(texture, texture_, sizeof(texture));
 }
 
@@ -65,7 +70,8 @@ Block::Block(const int texture_[6]) : BlockBase(1, 1, 1) {
 /// Block类构造函数。
 /// </summary>
 /// <param name="texture_">材质类型，应用于六个面</param>
-Block::Block(const int texture_) : BlockBase(1, 1, 1) {
+Block::Block(const int texture_, bool isFilledBlock_) : 
+	BlockBase(1, 1, 1, isFilledBlock_) {
 	for (int i = 0; i < 6; i++)
 		texture[i] = texture_;
 }
@@ -73,7 +79,9 @@ Block::Block(const int texture_) : BlockBase(1, 1, 1) {
 /// <summary>
 /// 在坐标(x, y, z)处渲染该方块。
 /// </summary>
-void Block::render(float x, float y, float z)const {
+/// <param name="mask">渲染面掩码，0-5位分别代表“前后左右上下”六面</param>
+void Block::render(float x, float y, float z, unsigned char mask)const {
+	if (!mask) return;
 	typedef GLfloat vertex3[3];
 	const vertex3 cube[8] = {
 		{ -0.5, -0.5, -0.5 }, { -0.5, 0.5, -0.5}, 
@@ -95,6 +103,8 @@ void Block::render(float x, float y, float z)const {
 	glPushMatrix();
 	glTranslated(x + 0.5f, y + 0.5f, z + 0.5f);
 	for (int i = 0; i < 6; i++) {
+		if (!((mask >> i) & 1)) continue;
+
 		glBindTexture(GL_TEXTURE_2D, TEXTURE[texture[i]]);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -113,13 +123,17 @@ void Block::render(float x, float y, float z)const {
 /// Leaves类构造函数
 /// </summary>
 /// <param name="texture_">材质类型</param>
-Leaves::Leaves(int texture_) : Block(texture_) {}
+Leaves::Leaves(int texture_) : Block(texture_, false) {}
 
-void Leaves::render(float x, float y, float z)const {
+/// <summary>
+/// 在坐标(x, y, z)处渲染该方块。
+/// </summary>
+/// <param name="mask">渲染面掩码, 叶子类型渲染所有面，忽略该掩码</param>
+void Leaves::render(float x, float y, float z, unsigned char mask)const {
 	glEnable(GL_BLEND);
 	glDepthMask(GL_FALSE);
 
-	Block::render(x, y, z);
+	Block::render(x, y, z, (1u << 6) - 1u);
 
 	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
@@ -129,9 +143,13 @@ void Leaves::render(float x, float y, float z)const {
 /// Plant类构造函数
 /// </summary>
 /// <param name="texture_">材质类型</param>
-Plant::Plant(int texture_) : texture(texture_), BlockBase(1, 1, 1) {}
+Plant::Plant(int texture_) : texture(texture_), BlockBase(1, 1, 1, false) {}
 
-void Plant::render(float x, float y, float z)const {
+/// <summary>
+/// 在坐标(x, y, z)处渲染该方块。
+/// </summary>
+/// <param name="mask">渲染面掩码，植物类型渲染所有面，忽略该掩码</param>
+void Plant::render(float x, float y, float z, unsigned char mask)const {
 	glEnable(GL_BLEND);
 	glDepthMask(GL_FALSE);
 	const vertex3f cube[2][4] = {

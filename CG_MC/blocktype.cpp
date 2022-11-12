@@ -82,7 +82,6 @@ void initTexture() {
 }
 
 const block_t AIR = 0;
-const block_t INVALID_BLOCK = 255;
 
 const block_t BLOCK_TYPE_NUM = 7;
 const BlockBase* BLOCKS[BLOCK_TYPE_NUM + 1] = {
