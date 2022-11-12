@@ -1,5 +1,6 @@
 ﻿#include <GL/glut.h>
 #include <cstdio>
+#include "character.h"
 #include "display.h"
 #include "map.h"
 #include "setting.h"
@@ -34,11 +35,25 @@ void drawFrontSight() {
 /// 显示实时帧率。
 /// </summary>
 void displayFPS() {
-    char s[10];
-    sprintf_s(s, "FPS:%4.2f", FPS);
+    char s[11];
+    sprintf_s(s, "FPS: %4.2f", FPS);
     glRasterPos2i(3, winHeight - 15);
     drawString(s);
 }
+
+/// <summary>
+/// 显示坐标。
+/// </summary>
+void displayPos() {
+    char s[30];
+    sprintf_s(s, "POS: [%d %d %d]",
+        int(floor(character.getPosX())),
+        int(floor(character.getPosZ())),
+        int(floor(character.getPosY())));
+    glRasterPos2i(3, winHeight - 30);
+    drawString(s);
+}
+
 
 /// <summary>
 /// 显示2D内容。
@@ -58,6 +73,7 @@ void display2D() {
 
     drawFrontSight();
     displayFPS();
+    displayPos();
 
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
@@ -119,9 +135,7 @@ void displayIdleFunc() {
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     if (currentTime - timeBase > 1000) {
         FPS = frameCount * 1000.0 / (currentTime - timeBase);
-        printf("FPS:%4.2f\n", FPS);
         timeBase = currentTime;
         frameCount = 0;
     }
-
 }

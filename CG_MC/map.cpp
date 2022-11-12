@@ -118,12 +118,8 @@ unsigned char Map::getRenderMask(block_t* blocks, int x, int y, int z) {
 	unsigned char mask = 0u;
 	for (int i = 0; i < 6; i++) {
 		int px = x + d[i][0], py = y + d[i][1], pz = z + d[i][2];
-		if (pz < 0 || WORLD_HEIGHT <= pz 
-			|| px < 0 || px >= RENDER_RANGE 
-			|| py < 0 || py >= RENDER_RANGE) {
-			mask |= (1u << i);
-			continue;
-		}
+		if (pz < 0 || WORLD_HEIGHT <= pz || px < 0 || px >= RENDER_RANGE 
+			|| py < 0 || py >= RENDER_RANGE) continue;
 
 		block_t type = blocks[px * (RENDER_RANGE * WORLD_HEIGHT)
 			+ py * WORLD_HEIGHT + pz];
