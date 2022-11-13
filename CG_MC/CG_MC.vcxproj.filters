@@ -51,6 +51,9 @@
     <ClCompile Include="display.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="inventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imageloader.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="display.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inventory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

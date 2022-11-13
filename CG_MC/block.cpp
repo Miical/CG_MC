@@ -119,6 +119,11 @@ void Block::render(float x, float y, float z, unsigned char mask)const {
 	glPopMatrix();
 }
 	
+
+int Block::getThumbnailTexture()const {
+	return texture[4];
+}
+
 /// <summary>
 /// Leaves类构造函数
 /// </summary>
@@ -137,6 +142,10 @@ void Leaves::render(float x, float y, float z, unsigned char mask)const {
 
 	glDepthMask(GL_TRUE);
 	glDisable(GL_BLEND);
+}
+
+int Plant::getThumbnailTexture()const {
+	return texture;
 }
 
 /// <summary>

@@ -4,6 +4,7 @@
 #include "display.h"
 #include "map.h"
 #include "setting.h"
+#include "inventory.h"
 
 int frameCount, timeBase;
 float FPS;
@@ -74,6 +75,7 @@ void display2D() {
     drawFrontSight();
     displayFPS();
     displayPos();
+    inventory.render();
 
     glPopMatrix();
     glMatrixMode(GL_PROJECTION);
@@ -134,7 +136,9 @@ void displayIdleFunc() {
     frameCount++;
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     if (currentTime - timeBase > 1000) {
-        FPS = frameCount * 1000.0 / (currentTime - timeBase);
+        if (currentTime > 3000)
+            FPS = frameCount * 1000.0 / (currentTime - timeBase);
+        else FPS = STANDARD_FPS;
         timeBase = currentTime;
         frameCount = 0;
     }

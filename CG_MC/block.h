@@ -11,6 +11,7 @@ public:
 	virtual void render(float x, float y, float z, unsigned char mask)const = 0;
 	virtual void renderTargetBlock(float x, float y, float z, unsigned char mask)const;
 	virtual bool containPoint(float x, float y, float z)const;
+	virtual int getThumbnailTexture()const = 0;
 	BlockBase(int lengthNum_, int widthNum_, int heightNum_, bool filledBlock_);
 	bool isFilledBlock()const { return filledBlock; }
 private:
@@ -33,6 +34,7 @@ public:
 	Block(const int texture_[6], bool isFilledBlock = true);
 	Block(const int texture_, bool isFilledBlock = true);
 	void render(float x, float y, float z, unsigned char mask)const override;
+	int getThumbnailTexture()const override;
 private:
 	/// <summary>
 	/// 六个面的材质，顺序为前后左右上下。
@@ -57,6 +59,7 @@ public:
 	Plant(int texture);
 	void render(float x, float y, float z, unsigned char mask) const override;
 	bool containPoint(float x, float y, float z)const override;
+	int getThumbnailTexture()const override;
 private:
 	int texture;
 };

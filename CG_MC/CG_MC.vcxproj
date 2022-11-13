@@ -135,6 +135,7 @@
     <ClCompile Include="imagesplitter.cpp" />
     <ClCompile Include="inputprocess.cpp" />
     <ClCompile Include="character.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapgenerator.cpp" />
     <ClCompile Include="setting.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="imagesplitter.h" />
     <ClInclude Include="inputprocess.h" />
     <ClInclude Include="character.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="mapgenerator.h" />
     <ClInclude Include="setting.h" />

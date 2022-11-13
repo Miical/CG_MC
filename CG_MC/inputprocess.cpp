@@ -6,50 +6,52 @@
 #include "blocktype.h"
 #include "display.h"
 #include "map.h"
+#include "inventory.h"
 #include "vector3D.h"
 
 bool mouseActive, leftButtonPressed, walkKeyPressed, upOrDownPressed;
 int leftButtonTimer, currentDirect, currentUpDown;
 float speedRatio;
-block_t currentType;
 
 void keyboardFunc(unsigned char key, int x, int y) {
-	switch (key) {
-	case 'w':
+	if (key == 'w') {
 		walkKeyPressed = true;
 		currentDirect = 0;
-		break;
-	case 'a':
+	} 
+	else if (key == 'a') {
 		walkKeyPressed = true;
 		currentDirect = 1;
-		break;
-	case 's':
+	}
+	else if (key == 's') {
 		walkKeyPressed = true;
 		currentDirect = 2;
-		break;
-	case 'd':
+	}
+	else if (key == 'd') {
 		walkKeyPressed = true;
 		currentDirect = 3;
-		break;
-	case 'm':
+	}
+	else if (key == 'm') {
 		character.reverseFly();
-		break;
-	case ' ':
+	}
+	else if (key == ' ') {
 		if (!character.isJumping())
 			character.jump(worldMap);
-		break;
-	case 19:
+	}
+	else if (key == 19) {
 		worldMap.saveFile();
-		break;
-	case 27:
+	}
+	else if (key == 27) {
 		mouseActive = false;
 		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-		break;
-	case '~':
+	}
+	else if (key == '~') {
 		exit(0);
-		break;
-	default:
-		break;
+	}
+	else if ('0' <= key && key <= min('9', Inventory::inventoryNum + '0' - 1)) {
+		if (key == '0')
+			inventory.setSelectedBlock(9);
+		else
+			inventory.setSelectedBlock(key - '1');
 	}
 }
 
@@ -82,7 +84,7 @@ void mouseFunc(int button, int state, int x, int y) {
 		if (!leftButtonPressed) return;
 		leftButtonPressed = false;
 		
-		worldMap.placeBlock(currentType);
+		worldMap.placeBlock(inventory.getCurrentBlockType());
 	}
 }
 
@@ -116,12 +118,13 @@ void specialKeyFunc(int key, int x, int y) {
 		upOrDownPressed = true;
 		break;
 	case GLUT_KEY_LEFT:
-		currentType = (currentType + BLOCK_TYPE_NUM - 2) % BLOCK_TYPE_NUM + 1;
-		printf("%d\n", currentType);
+		inventory.setSelectedBlock(
+			(inventory.getSelectedBlock() + Inventory::inventoryNum - 1) 
+			% Inventory::inventoryNum);
 		break;
 	case GLUT_KEY_RIGHT:
-		currentType = currentType % BLOCK_TYPE_NUM + 1;
-		printf("%d\n", currentType);
+		inventory.setSelectedBlock(
+			(inventory.getSelectedBlock() + 1) % Inventory::inventoryNum);
 		break;
 	default:
 		break;
@@ -156,7 +159,6 @@ void initInput() {
 	leftButtonPressed = false;
 	upOrDownPressed = false;
 	walkKeyPressed = false;
-	currentType = 1;
 	currentDirect = 0;
 	currentUpDown = 0;
 	speedRatio = 1.0;
@@ -180,8 +182,9 @@ void inputIdleFunc() {
 
 	// 定位待放置方块位置
 	if (!hasTargetBlock || !getDropPos(target)
+		|| !inventory.getCurrentBlockType()
 		|| !character.legalPosToPlaceBlock(
-			target.x, target.y, target.z, currentType)
+			target.x, target.y, target.z, inventory.getCurrentBlockType())
 		|| worldMap.getBlock(target.x, target.y, target.z) != AIR)
 		target.z = -1;
 	worldMap.setDropBlock(target);
