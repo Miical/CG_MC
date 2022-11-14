@@ -214,16 +214,19 @@ Water::Water(int texture_) : texture(texture_), BlockBase(1, 1, 1, false) {}
 /// <summary>
 /// 在坐标(x, y, z)处渲染该方块。
 /// </summary>
-/// <param name="mask">渲染面掩码，植物类型渲染所有面，忽略该掩码</param>
+/// <param name="mask">渲染面掩码</param>
 void Water::render(float x, float y, float z, unsigned char mask)const {
 	if (!mask) return;
 	typedef GLfloat vertex3[3];
-	const vertex3 cube[8] = {
-		{ -0.5, -0.5, -0.5 }, { -0.5, 0.5, -0.5}, 
-		{ -0.5, 0.5, 0.45 }, { -0.5, -0.5, 0.45}, 
-		{ 0.5, -0.5, -0.5 }, { 0.5, 0.5, -0.5}, 
-		{ 0.5, 0.5, 0.45 }, { 0.5, -0.5, 0.45}, 
+	vertex3 cube[8] = {
+		{ -0.5, -0.5, -0.5 }, { -0.5, 0.5, -0.5},
+		{ -0.5, 0.5, 0.45 }, { -0.5, -0.5, 0.45},
+		{ 0.5, -0.5, -0.5 }, { 0.5, 0.5, -0.5},
+		{ 0.5, 0.5, 0.45 }, { 0.5, -0.5, 0.45},
 	};
+	if (!((mask >> 4) & 1))
+		for (int i = 2; i < 8; i += 4)
+			cube[i][2] = cube[i + 1][2] = 0.5;
 	const int vertexsOrder[6][4] = {
 		{ 4, 5, 6, 7 }, { 1, 0, 3, 2 }, 
 		{ 0, 4, 7, 3 }, { 5, 1, 2, 6 },
