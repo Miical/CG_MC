@@ -269,7 +269,7 @@ bool Water::containPoint(float x, float y, float z)const {
 /// <param name="type'>方块类型</param>
 /// <returns>方块若对type类型而言是填充类型则返回true，否则为false</returns>
 bool Water::isFilledBlock(int type)const {
-	if (type == 47)
+	if (type == WATER || type == LAVA)
 		return true;
 	else
 		return false;

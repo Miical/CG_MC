@@ -80,113 +80,104 @@ void initTexture() {
     glMaterialf(GL_FRONT, GL_SHININESS, BLOCK_MAT_SHININESS);
 }
 
-const block_t AIR = 0;
-
-const Block COBBLESTONE(25);
-const Block STONE_BRICKS(61);
-const Block MOSSY_STONE_BRICKS(107);
-const Block CRACKED_STONE_BRICKS(108);
-const Block CHISELED_STONE_BRICKS(177);
-const Block MOSS_STONE(45);
-const Block OAK_WOOD_PLANKS(5);
-const Block SPRUCE_WOOD_PLANKS(170);
-const Block BRICH_WOOD_PLANKS(178);
-const Block JUNGLE_WOOD_PLANKS(171);
-const Block ACACIA_WOOD_PLANKS(221);
-const Block DARK_OAK_WOOD_PLANKS(222);
-const Block BRICKS(8);
-const Block STONE(2);
-const Block GRANITE(231);
-const Block DIRT(3);
-const int PODZOL_TEXTURE[6] = { 212, 212, 212, 212, 211, 3 };
-const Block PODZOL(PODZOL_TEXTURE);
-const int GRASS_TEXTURE[6] = { 4, 4, 4, 4, 1, 3 };
-const Block GRASS(GRASS_TEXTURE);
-const int SNOW_TEXTURE[6] = { 83, 83, 83, 83, 81, 3 };
-const Block SNOW(SNOW_TEXTURE);
-const int MYCELIUM_TEXTURE[6] = { 92, 92, 92, 92, 93, 3 };
-const Block MYCELIUM(MYCELIUM_TEXTURE);
-const int SANDSTONE_TEXTURE[6] = { 164, 164, 164, 164, 161, 172 };
-const Block SANDSTONE(SANDSTONE_TEXTURE);
-const int CHISELED_SANDSTONE_TEXTURE[6] = { 184, 184, 184, 184, 161, 172 };
-const Block CHISELED_SANDSTONE(CHISELED_SANDSTONE_TEXTURE);
-const int SMOOTH_SANDSTONE_TEXTURE[6] = { 185, 185, 185, 185, 161, 172 };
-const Block SMOOTH_SANDSTONE(SMOOTH_SANDSTONE_TEXTURE);
-const Block SAND(27);
-const Block RED_SAND(15);
-const Block GRAVEL(28);
-const int OAK_WOOD_TEXTURE[6] = { 29, 29, 29, 29, 30, 30 };
-const Block OAK_WOOD(OAK_WOOD_TEXTURE);
-const int SPRUCE_WOOD_TEXTURE[6] = { 129, 129, 129, 129, 214, 214 };
-const Block SPRUCE_WOOD(SPRUCE_WOOD_TEXTURE);
-const int BRICH_WOOD_TEXTURE[6] = { 130, 130, 130, 130, 215, 215 };
-const Block BRICH_WOOD(BRICH_WOOD_TEXTURE);
-const int JUNGLE_WOOD_WOOD_TEXTURE[6] = { 157, 157, 157, 157, 216, 216 };
-const Block JUNGLE_WOOD_WOOD(JUNGLE_WOOD_WOOD_TEXTURE);
-const int ACACIA_WOOD_TEXTURE[6] = { 217, 217, 217, 217, 218, 218 };
-const Block ACACIA_WOOD(ACACIA_WOOD_TEXTURE);
-const int DARK_OAK_WOOD_TEXTURE[6] = { 219, 219, 219, 219, 220, 220 };
-const Block DARK_OAK_WOOD(DARK_OAK_WOOD_TEXTURE);
-const Block BEDROCK(26);
-const Block COAL_ORE(43);
-const Block IRON_ORE(42);
-const Block GOLD_ORE(41);
-const Block DIAMOND_ORE(57);
-const Block LAPIS_LAZULI_ORE(158);
-const Block REDSTONE_ORE(58);
-const Block OBSIDIAN(46);
-const Block ICE(82);
-const Block SNOW_BLOCK(81);
-const Block BIG_MUSHROOM_BOTTOM(139);
-const Block BIG_MUSHROOM_TOP(138);
-const int MELON_TEXTURE[6] = { 147, 147, 147, 147, 148, 148 };
-const Block MELON(MELON_TEXTURE);
-const int PUMPKIN_TEXTURE[6] = { 132, 131, 131, 131, 109, 109 };
-const Block PUMPKIN(PUMPKIN_TEXTURE);
-const Water WATER(233);
-const Water LAVA(234);
-const Plant COBWEB(12);
-const Leaves GLASS(56);
-const Leaves OAK_LEAVES(59);
-const Leaves SPRUCE_LEAVES(144);
-const Leaves BIRCH_LEAVES(103);
-const Block JUNGLE_LEAVES(169);
-
-const int GRASS_PLANT_TEXTURE = 49;
-const Plant GRASS_PLANT(GRASS_PLANT_TEXTURE);
-const Plant DANDELION(14);
-const Plant POPPY(13);
-const Plant BLUT_ORCHID(197);
-const Plant ALLIUM(198);
-const Plant AZURE_BLUET(199);
-const Plant RED_TULIP(200);
-const Plant ORANGE_TULIP(201);
-const Plant WHITE_TULIP(202);
-const Plant PINK_TULIP(203);
-const Plant OXEYE_DAISY(204);
-const Plant SUNFLOWER(205);
-const Plant MUSHROOM(38);
-const Plant RED_MUSHROOM(37);
-const Plant YUAN_FLOWER(71);
-
 const block_t BLOCK_TYPE_NUM = 69;
-const BlockBase* BLOCKS[BLOCK_TYPE_NUM + 1] = {
-    nullptr, &COBBLESTONE, &STONE_BRICKS, &MOSSY_STONE_BRICKS, 
-    &CRACKED_STONE_BRICKS, &CHISELED_STONE_BRICKS, &MOSS_STONE, 
-    &OAK_WOOD_PLANKS, &SPRUCE_WOOD_PLANKS, &BRICH_WOOD_PLANKS, 
-    &JUNGLE_WOOD_PLANKS, &ACACIA_WOOD_PLANKS, &DARK_OAK_WOOD_PLANKS, 
-    &BRICKS, &STONE, &GRANITE, &DIRT, &PODZOL, &GRASS, &SNOW, &MYCELIUM, 
-    &SANDSTONE, &CHISELED_SANDSTONE, &SMOOTH_SANDSTONE, &SAND, 
-	&RED_SAND, &GRAVEL, &OAK_WOOD, &SPRUCE_WOOD, &BRICH_WOOD,
-	&JUNGLE_WOOD_WOOD, &ACACIA_WOOD, &DARK_OAK_WOOD, &BEDROCK, &COAL_ORE,
-	&IRON_ORE, &GOLD_ORE, &DIAMOND_ORE, &LAPIS_LAZULI_ORE, &REDSTONE_ORE,
-	&OBSIDIAN, &ICE, &SNOW_BLOCK, &BIG_MUSHROOM_BOTTOM, &BIG_MUSHROOM_TOP,
-	&MELON, &PUMPKIN, &WATER, &LAVA, &COBWEB, &GLASS, &OAK_LEAVES,
-	&SPRUCE_LEAVES, &BIRCH_LEAVES, &JUNGLE_LEAVES, &GRASS_PLANT,
-	&DANDELION, &POPPY, &BLUT_ORCHID, &ALLIUM, &AZURE_BLUET, &RED_TULIP,
-	&ORANGE_TULIP, &WHITE_TULIP, &PINK_TULIP, &OXEYE_DAISY, &SUNFLOWER,
-	&MUSHROOM, &RED_MUSHROOM, &YUAN_FLOWER
-};
+const BlockBase* BLOCKS[BLOCK_TYPE_NUM + 1];
+
+/// <summary>
+/// 导入方块。
+/// </summary>
+/// <return>导入后方块的编号</return>
+int loadBoard(const BlockBase* block) {
+    static int blockCnt = 0;
+    BLOCKS[++blockCnt] = block;
+    return blockCnt;
+}
+
+const block_t AIR = 0;
+const block_t COBBLESTONE = loadBoard(new Block(25));
+const block_t STONE_BRICKS = loadBoard(new Block(61));
+const block_t MOSSY_STONE_BRICKS = loadBoard(new Block(107));
+const block_t CRACKED_STONE_BRICKS = loadBoard(new Block(108));
+const block_t CHISELED_STONE_BRICKS = loadBoard(new Block(177));
+const block_t MOSS_STONE = loadBoard(new Block(45));
+const block_t OAK_WOOD_PLANKS = loadBoard(new Block(5));
+const block_t SPRUCE_WOOD_PLANKS = loadBoard(new Block(170));
+const block_t BRICH_WOOD_PLANKS = loadBoard(new Block(178));
+const block_t JUNGLE_WOOD_PLANKS = loadBoard(new Block(171));
+const block_t ACACIA_WOOD_PLANKS = loadBoard(new Block(221));
+const block_t DARK_OAK_WOOD_PLANKS = loadBoard(new Block(222));
+const block_t BRICKS = loadBoard(new Block(8));
+const block_t STONE = loadBoard(new Block(2));
+const block_t GRANITE = loadBoard(new Block(231));
+const block_t DIRT = loadBoard(new Block(3));
+const int PODZOL_TEXTURE[6] = { 212, 212, 212, 212, 211, 3 };
+const block_t PODZOL = loadBoard(new Block(PODZOL_TEXTURE));
+const int GRASS_TEXTURE[6] = { 4, 4, 4, 4, 1, 3 };
+const block_t GRASS = loadBoard(new Block(GRASS_TEXTURE));
+const int SNOW_TEXTURE[6] = { 83, 83, 83, 83, 81, 3 };
+const block_t SNOW = loadBoard(new Block(SNOW_TEXTURE));
+const int MYCELIUM_TEXTURE[6] = { 92, 92, 92, 92, 93, 3 };
+const block_t MYCELIUM = loadBoard(new Block(MYCELIUM_TEXTURE));
+const int SANDSTONE_TEXTURE[6] = { 164, 164, 164, 164, 161, 172 };
+const block_t SANDSTONE = loadBoard(new Block(SANDSTONE_TEXTURE));
+const int CHISELED_SANDSTONE_TEXTURE[6] = { 184, 184, 184, 184, 161, 172 };
+const block_t CHISELED_SANDSTONE = loadBoard(new Block(CHISELED_SANDSTONE_TEXTURE));
+const int SMOOTH_SANDSTONE_TEXTURE[6] = { 185, 185, 185, 185, 161, 172 };
+const block_t SMOOTH_SANDSTONE = loadBoard(new Block(SMOOTH_SANDSTONE_TEXTURE));
+const block_t SAND = loadBoard(new Block(27));
+const block_t RED_SAND = loadBoard(new Block(15));
+const block_t GRAVEL = loadBoard(new Block(28));
+const int OAK_WOOD_TEXTURE[6] = { 29, 29, 29, 29, 30, 30 };
+const block_t OAK_WOOD = loadBoard(new Block(OAK_WOOD_TEXTURE));
+const int SPRUCE_WOOD_TEXTURE[6] = { 129, 129, 129, 129, 214, 214 };
+const block_t SPRUCE_WOOD = loadBoard(new Block(SPRUCE_WOOD_TEXTURE));
+const int BRICH_WOOD_TEXTURE[6] = { 130, 130, 130, 130, 215, 215 };
+const block_t BRICH_WOOD = loadBoard(new Block(BRICH_WOOD_TEXTURE));
+const int JUNGLE_WOOD_WOOD_TEXTURE[6] = { 157, 157, 157, 157, 216, 216 };
+const block_t JUNGLE_WOOD_WOOD = loadBoard(new Block(JUNGLE_WOOD_WOOD_TEXTURE));
+const int ACACIA_WOOD_TEXTURE[6] = { 217, 217, 217, 217, 218, 218 };
+const block_t ACACIA_WOOD = loadBoard(new Block(ACACIA_WOOD_TEXTURE));
+const int DARK_OAK_WOOD_TEXTURE[6] = { 219, 219, 219, 219, 220, 220 };
+const block_t DARK_OAK_WOOD = loadBoard(new Block(DARK_OAK_WOOD_TEXTURE));
+const block_t BEDROCK = loadBoard(new Block(26));
+const block_t COAL_ORE = loadBoard(new Block(43));
+const block_t IRON_ORE = loadBoard(new Block(42));
+const block_t GOLD_ORE = loadBoard(new Block(41));
+const block_t DIAMOND_ORE = loadBoard(new Block(57));
+const block_t LAPIS_LAZULI_ORE = loadBoard(new Block(158));
+const block_t REDSTONE_ORE = loadBoard(new Block(58));
+const block_t OBSIDIAN = loadBoard(new Block(46));
+const block_t ICE = loadBoard(new Block(82));
+const block_t SNOW_BLOCK = loadBoard(new Block(81));
+const block_t BIG_MUSHROOM_BOTTOM = loadBoard(new Block(139));
+const block_t BIG_MUSHROOM_TOP = loadBoard(new Block(138));
+const int MELON_TEXTURE[6] = { 147, 147, 147, 147, 148, 148 };
+const block_t MELON = loadBoard(new Block(MELON_TEXTURE));
+const int PUMPKIN_TEXTURE[6] = { 132, 131, 131, 131, 109, 109 };
+const block_t PUMPKIN = loadBoard(new Block(PUMPKIN_TEXTURE));
+const block_t WATER = loadBoard(new Water(233));
+const block_t LAVA = loadBoard(new Water(234));
+const block_t COBWEB = loadBoard(new Plant(12));
+const block_t GLASS = loadBoard(new Leaves(56));
+const block_t OAK_LEAVES = loadBoard(new Leaves(59));
+const block_t SPRUCE_LEAVES = loadBoard(new Leaves(144));
+const block_t BIRCH_LEAVES = loadBoard(new Leaves(103));
+const block_t JUNGLE_LEAVES = loadBoard(new Block(169));
+const block_t GRASS_PLANT = loadBoard(new Plant(49));
+const block_t DANDELION = loadBoard(new Plant(14));
+const block_t POPPY = loadBoard(new Plant(13));
+const block_t BLUT_ORCHID = loadBoard(new Plant(197));
+const block_t ALLIUM = loadBoard(new Plant(198));
+const block_t AZURE_BLUET = loadBoard(new Plant(199));
+const block_t RED_TULIP = loadBoard(new Plant(200));
+const block_t ORANGE_TULIP = loadBoard(new Plant(201));
+const block_t WHITE_TULIP = loadBoard(new Plant(202));
+const block_t PINK_TULIP = loadBoard(new Plant(203));
+const block_t OXEYE_DAISY = loadBoard(new Plant(204));
+const block_t SUNFLOWER = loadBoard(new Plant(205));
+const block_t MUSHROOM = loadBoard(new Plant(38));
+const block_t RED_MUSHROOM = loadBoard(new Plant(37));
+const block_t YUAN_FLOWER = loadBoard(new Plant(71));
 
 /// <summary>
 /// 导入材质。
