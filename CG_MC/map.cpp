@@ -257,7 +257,7 @@ void Map::saveFile()const {
 void Map::loadFile() {
 	using namespace std;
 	fstream fin;
-	fin.open(MAP_FILE, fstream::in | fstream::app);
+	fin.open(MAP_FILE, fstream::in);
 	if (!fin.is_open()) {
 		cerr << "Load failed! Can't open file '" << MAP_FILE << "'.\n";
 		cerr << "The world has been recreated." << endl;

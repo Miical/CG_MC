@@ -1,5 +1,8 @@
-﻿#include "inventory.h"
+﻿#include <fstream>
+#include <iostream>
+#include "inventory.h"
 #include "blocktype.h"
+const char* INVENTORY_FILE = "./data/inventory.dat";
 
 Inventory inventory(BLOCKS, BLOCK_TYPE_NUM, winHeight, winWidth);
 
@@ -8,8 +11,7 @@ Inventory::Inventory(const BlockBase* blocks_[], int blocksNumber_,
 	blocks(blocks_), blocksNumbers(blocksNumber_), 
 	windowsHeight(windowsHeight_), windowsWidth(windowsWidth_),
 	selectedBlock(0), blockListActive(false), selectedBlockInList(0) {
-	for (int i = 1; i <= inventoryNum; i++)
-		inventoryBlocks[i - 1] = i;
+	loadFile();
 }
 
 /// <summary>
@@ -92,6 +94,7 @@ void Inventory::openBlockList() {
 /// </summary>
 void Inventory::closeBlockList() {
 	blockListActive = false;
+	saveFile();
 }
 
 /// <summary>
@@ -164,7 +167,7 @@ void Inventory::renderInventory()const {
 	}
 	posX = windowsWidth / 2 - inventoryNum * gridSize / 2 
 		+ gridSize * selectedBlock;
-	glColor3f(0.4f, 0.4f, 0.4f);
+	glColor3f(0.45f, 0.45f, 0.45f);
 	glBegin(GL_QUADS);
 		glVertex2i(posX - frameWidth, posY + frameWidth);
 		glVertex2i(posX + gridSize + frameWidth, posY + frameWidth);
@@ -293,5 +296,36 @@ void Inventory::renderBlockList()const {
 		}
 	}
 	glDisable(GL_TEXTURE_2D);
+}
+
+void Inventory::loadFile() {
+	using namespace std;
+	fstream fin;
+	fin.open(INVENTORY_FILE, fstream::in);
+	if (!fin.is_open()) {
+		cerr << "Load failed! Can't open file '" << INVENTORY_FILE << "'.\n";
+		cerr << "Inventory has been reset." << endl;
+		for (int i = 0; i < inventoryNum; i++)
+			inventoryBlocks[i] = i + 1;
+		saveFile();
+		return;
+	}
+	for (int i = 0; i < inventoryNum; i++)
+		fin >> inventoryBlocks[i];
+	fin.close();
+}
+
+void Inventory::saveFile()const {
+	using namespace std;
+	ofstream fout;
+	fout.open(INVENTORY_FILE, ios_base::out | ios_base::trunc);
+	if (!fout.is_open()) {
+		cerr << "Save failed! Can't open file '" << INVENTORY_FILE << "'.\n";
+		return;
+	}
+
+	for (int i = 0; i < inventoryNum; i++)
+		fout << inventoryBlocks[i] << ' ';
+	fout.close();
 }
 

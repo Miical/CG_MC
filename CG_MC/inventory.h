@@ -36,6 +36,8 @@ private:
 	void setInventoryBlock(int id, int blockType);
 	void renderInventory()const;
 	void renderBlockList()const;
+	void loadFile();
+	void saveFile()const;
 };
 
 extern Inventory inventory;
