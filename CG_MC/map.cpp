@@ -123,7 +123,8 @@ unsigned char Map::getRenderMask(block_t* blocks, int x, int y, int z) {
 
 		block_t type = blocks[px * (RENDER_RANGE * WORLD_HEIGHT)
 			+ py * WORLD_HEIGHT + pz];
-		if (type == AIR || !BLOCKS[type]->isFilledBlock())
+		if (type == AIR || !BLOCKS[type]->isFilledBlock(
+			blocks[x * (RENDER_RANGE * WORLD_HEIGHT) + y * WORLD_HEIGHT + z]))
 			mask |= (1u << i);
 	}
 	return mask;

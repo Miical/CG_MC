@@ -12,8 +12,8 @@ public:
 	virtual void renderTargetBlock(float x, float y, float z, unsigned char mask)const;
 	virtual bool containPoint(float x, float y, float z)const;
 	virtual int getThumbnailTexture()const = 0;
+	virtual bool isFilledBlock(int type)const;
 	BlockBase(int lengthNum_, int widthNum_, int heightNum_, bool filledBlock_);
-	bool isFilledBlock()const { return filledBlock; }
 private:
 	/// <summary>
 	/// 高度、宽度所占格子数量
@@ -56,10 +56,21 @@ public:
 /// </summary>
 class Plant : public BlockBase {
 public:
-	Plant(int texture);
+	Plant(int texture_);
 	void render(float x, float y, float z, unsigned char mask) const override;
 	bool containPoint(float x, float y, float z)const override;
 	int getThumbnailTexture()const override;
+private:
+	int texture;
+};
+
+class Water : public BlockBase {
+public:
+	Water(int texture_);
+	void render(float x, float y, float z, unsigned char mask) const override;
+	bool containPoint(float x, float y, float z)const override;
+	int getThumbnailTexture()const override;
+	bool isFilledBlock(int type)const override;
 private:
 	int texture;
 };
