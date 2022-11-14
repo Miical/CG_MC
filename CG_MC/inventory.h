@@ -29,7 +29,7 @@ private:
 	const int blocksNumbers;
 	
 	static const int blockListWidthNum = 12;
-	static const int blockListHeightNum = 5;
+	static const int blockListHeightNum = 6;
 	static const int sizeRatio = 14;
 	int windowsHeight, windowsWidth;
 
