@@ -119,6 +119,7 @@ void displayFcn() {
 void reshapeFcn(GLint newWidth, GLint newHeight) {
     glViewport(0, 0, newWidth, newHeight);
     winWidth = newWidth, winHeight = newHeight;
+    inventory.reshapeSize(winHeight, winWidth);
 }
 
 void initDisplay() {

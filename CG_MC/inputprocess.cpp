@@ -13,45 +13,97 @@ bool mouseActive, leftButtonPressed, walkKeyPressed, upOrDownPressed;
 int leftButtonTimer, currentDirect, currentUpDown;
 float speedRatio;
 
+/// <summary>
+/// 释放鼠标。
+/// </summary>
+void releaseMouse() {
+	mouseActive = false;
+	glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
+}
+
+/// <summary>
+/// 激活鼠标。
+/// </summary>
+void activeMouse() {
+	glutWarpPointer(winWidth / 2, winHeight / 2);
+	glutSetCursor(GLUT_CURSOR_NONE);
+	mouseActive = true;
+}
+
 void keyboardFunc(unsigned char key, int x, int y) {
-	if (key == 'w') {
-		walkKeyPressed = true;
-		currentDirect = 0;
-	} 
-	else if (key == 'a') {
-		walkKeyPressed = true;
-		currentDirect = 1;
-	}
-	else if (key == 's') {
-		walkKeyPressed = true;
-		currentDirect = 2;
-	}
-	else if (key == 'd') {
-		walkKeyPressed = true;
-		currentDirect = 3;
-	}
-	else if (key == 'm') {
-		character.reverseFly();
-	}
-	else if (key == ' ') {
-		if (!character.isJumping())
-			character.jump(worldMap);
-	}
-	else if (key == 19) {
+	switch (key) {
+	case 'w':
+		if (!inventory.getBlockListStatus()) {
+			walkKeyPressed = true;
+			currentDirect = 0;
+		}
+		break;
+	case 'a':
+		if (!inventory.getBlockListStatus()) {
+			walkKeyPressed = true;
+			currentDirect = 1;
+		}
+		break;
+	case 's':
+		if (!inventory.getBlockListStatus()) {
+			walkKeyPressed = true;
+			currentDirect = 2;
+		}
+		break;
+	case 'd':
+		if (!inventory.getBlockListStatus()) {
+			walkKeyPressed = true;
+			currentDirect = 3;
+		}
+		break;
+	case 'm':
+		if (!inventory.getBlockListStatus())
+			character.reverseFly();
+		break;
+	case 'e':
+		if (inventory.getBlockListStatus()) {
+			inventory.closeBlockList();
+			activeMouse();
+		}
+		else {
+			inventory.openBlockList();
+			releaseMouse();
+		}
+		break;
+	case ' ':
+		if (!inventory.getBlockListStatus()) {
+			if (!character.isJumping())
+				character.jump(worldMap);
+		}
+		break;
+	case 19:
 		worldMap.saveFile();
-	}
-	else if (key == 27) {
-		mouseActive = false;
-		glutSetCursor(GLUT_CURSOR_LEFT_ARROW);
-	}
-	else if (key == '~') {
+		break;
+	case 27:
+		releaseMouse();
+		break;
+	case '~':
 		exit(0);
-	}
-	else if ('0' <= key && key <= min('9', Inventory::inventoryNum + '0' - 1)) {
-		if (key == '0')
-			inventory.setSelectedBlock(9);
-		else
-			inventory.setSelectedBlock(key - '1');
+		break;
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
+	case '0':
+		if ('0' <= key && key <= min('9', Inventory::inventoryNum + '0' - 1)) {
+			if (key == '0')
+				inventory.setSelectedBlock(9);
+			else
+				inventory.setSelectedBlock(key - '1');
+		}
+		break;
+	default:
+		break;
 	}
 }
 
@@ -69,11 +121,15 @@ void keyboardUpFunc(unsigned char key, int x, int y) {
 }
 
 void mouseFunc(int button, int state, int x, int y) {
+	if (inventory.getBlockListStatus()) {
+		if (state == GLUT_DOWN)
+			inventory.clickMouse(x, y);
+		return;
+	}
+
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		if (!mouseActive) {
-			glutWarpPointer(winWidth / 2, winHeight / 2);
-			glutSetCursor(GLUT_CURSOR_NONE);
-			mouseActive = true;
+			activeMouse();
 		}
 		else {
 			leftButtonPressed = true;
@@ -108,6 +164,9 @@ void mouseMotionFunc(int x, int y) {
 
 
 void specialKeyFunc(int key, int x, int y) {
+	if (inventory.getBlockListStatus())
+		return;
+
 	switch (key) {
 	case GLUT_KEY_DOWN:
 		currentUpDown = 0;
@@ -151,10 +210,7 @@ void initInput() {
 	glutSpecialFunc(specialKeyFunc);
 	glutSpecialUpFunc(specialUpFunc);
 
-	glutWarpPointer(winWidth / 2, winHeight / 2);
-	glutSetCursor(GLUT_CURSOR_NONE);
-
-	mouseActive = true;
+	activeMouse();
 	leftButtonTimer = 0;
 	leftButtonPressed = false;
 	upOrDownPressed = false;
