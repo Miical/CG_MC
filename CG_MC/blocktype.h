@@ -83,6 +83,7 @@ extern const block_t SUNFLOWER;
 extern const block_t MUSHROOM;
 extern const block_t RED_MUSHROOM;
 extern const block_t YUAN_FLOWER;
+extern const block_t GHOST;
 
 void initTexture();
 GLuint loadTexture(Image* image);
