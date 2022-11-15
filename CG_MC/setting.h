@@ -6,6 +6,8 @@
 
 typedef GLint vertex3i[3];
 typedef GLfloat vertex3f[3];
+typedef GLint vertex3i[3];
+typedef GLfloat vertex3f[3];
 typedef struct Point3Df { GLfloat x, y, z; };
 typedef struct Point3Di { GLint x, y, z; };
 typedef unsigned char block_t;
