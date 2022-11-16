@@ -11,13 +11,12 @@ MapBlock::MapBlock(int posX_, int posY_, ModifiedBlocks& modified_):
 
 	int totalSize = WORLD_HEIGHT * MAP_BLOCK_SIZE * MAP_BLOCK_SIZE;
 	blocks = new block_t[totalSize];
-	for (int z = 0; z < WORLD_HEIGHT; z++) {
+	generator.getChunk(blocks, posX, posY);
+	for (int x = 0; x < MAP_BLOCK_SIZE; x++) {
 		for (int y = 0; y < MAP_BLOCK_SIZE; y++) {
-			for (int x = 0; x < MAP_BLOCK_SIZE; x++) {
+			for (int z = 0; z < WORLD_HEIGHT; z++) {
 				if (modified.find(compressPos(x + posX, y + posY, z)) != modified.end())
 					blocks[getID(x, y, z)] = modified[compressPos(x + posX, y + posY, z)];
-				else 
-					blocks[getID(x, y, z)] = generator.getBlock(x + posX, y + posY, z);
 			}
 		}
 	}
@@ -43,8 +42,8 @@ void MapBlock::modifyBlock(int x, int y, int z, block_t type) {
 	blocks[getID(x, y, z)] = type;
 }
 
-int MapBlock::getID(int x, int y, int z)const {
-	return z * (MAP_BLOCK_SIZE * MAP_BLOCK_SIZE) + y * MAP_BLOCK_SIZE + x;
+int MapBlock::getID(int x, int y, int z) {
+	return x * (MAP_BLOCK_SIZE * WORLD_HEIGHT) + y * WORLD_HEIGHT + z;
 }
 
 Map::Map(int watchPosX_, int watchPosY_, int watchPosZ_) {

@@ -30,6 +30,7 @@ extern const GLfloat MOUSE_SPEED;
 extern const GLfloat FALLING_SPEED;
 
 extern const int MAP_BLOCK_SIZE;
+extern const int SEA_LEVEL;
 extern const int WORLD_HEIGHT;
 extern const int RENDER_RANGE;
 

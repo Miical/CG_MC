@@ -224,7 +224,7 @@ void inputIdleFunc() {
 	// 鼠标左键长按拆除方块
 	if (leftButtonPressed) {
 		leftButtonTimer++;
-		if (leftButtonTimer > 15) {
+		if (leftButtonTimer > max(1, 15 / speedRatio)) {
 			worldMap.removeTargetBlock();
 			leftButtonPressed = false;
 		}

@@ -4,11 +4,13 @@
 
 class MapGenerator {
 public:
-	block_t getBlock(int x, int y, int z)const;
+	void getChunk(block_t* blocks, int posX, int posY)const;
 	MapGenerator(unsigned int seed_);
 
 private:
 	unsigned int seed;
+	
+	int heightGenerate(int x, int y)const;
 };
 
 extern const MapGenerator generator;

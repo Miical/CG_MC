@@ -17,9 +17,9 @@ public:
 	int getPosX()const { return posX; }
 	int getPosY()const { return posY; }
 
-private:
-	int getID(int x, int y, int z)const;
+	static int getID(int x, int y, int z);
 
+private:
 	block_t* blocks;
 	int posX, posY;
 	ModifiedBlocks& modified;
