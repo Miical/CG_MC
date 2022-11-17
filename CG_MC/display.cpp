@@ -1,5 +1,6 @@
 ﻿#include <GL/glut.h>
 #include <cstdio>
+#include "inputprocess.h"
 #include "character.h"
 #include "display.h"
 #include "map.h"
@@ -88,26 +89,34 @@ void display2D() {
 }
 
 GLfloat ag;
-void displayFcn() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_MODELVIEW);
-
-    //设置光照
-    glPushMatrix();
-    ag += 0.2;
-    glRotated(ag, 0, 1, 0);
-    glTranslatef(2000, 0, 0);
-    GLfloat light_position[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //光源的位置在世界坐标系圆心，齐次坐标形式
-    GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; //RGBA模式的环境光
-    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; //RGBA模式的漫反射光
-    GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 0.0f }; //RGBA模式下的镜面光
+void setLight() {
+    ag += 0.001f;
+    if (ag >= 2 * PI) ag = 0.0f;
+    GLfloat light_position[] = { 
+        character.getPosX() + 2000.0f * cosf(ag), 
+        character.getPosY(),
+        sinf(ag) * 2000.0f, 
+        1.0f};
+    GLfloat light_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
-    glPopMatrix();
 
-    // 物体
+    float rate = sin(ag);
+	glClearColor(0.35 + 0.25 * rate, 
+		0.45 + 0.35 * rate, 
+		0.50 + 0.40 * rate, 0.0);
+}
+
+void displayFcn() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+
+    setLight();
+
     glEnable(GL_TEXTURE_2D);
     worldMap.render();
     glDisable(GL_TEXTURE_2D);

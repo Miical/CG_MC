@@ -8,8 +8,8 @@ const GLfloat PI = 3.14159265358979323846;
 
 GLint winWidth = 1200, winHeight = 700;
 
-const vertex3f INIT_POS = { 0.0f, 0.0f, 127.0f };
-const GLfloat ALPHA = 0.0f, GAMA = PI / 2.0f; // 视线与x轴、z轴所成夹角
+const vertex3f INIT_POS = { 0.0f, 0.0f, 95.0f };
+const GLfloat ALPHA = 0.0f, GAMA = PI / 2.0f;
 const GLfloat VX = 0.0f, VY = 0.0f, VZ = 1.0f;
 
 const GLfloat VISION = 0.08f;
@@ -23,15 +23,15 @@ const GLfloat WALK_SPEED = 0.08f;
 const GLfloat MOUSE_SPEED = 1.5f;
 const GLfloat FALLING_SPEED = 0.1f;
 
-const int WORLD_HEIGHT = 128;
+const int WORLD_HEIGHT = 96;
 const int SEA_LEVEL = WORLD_HEIGHT / 2 - 2;
 const int MAP_BLOCK_SIZE = 6;
 const int RENDER_RANGE = 10; 
 
-const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 环境光颜色 
-const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 漫反射光颜色
-const GLfloat BLOCK_MAT_SPECULAR[] = { 0.0f, 0.0f, 0.0f, 0.0f }; // 镜面反射光颜色
-const GLfloat BLOCK_MAT_EMISSION[] = { 0.3f, 0.3f, 0.3f, 0.3f }; // 辐射光颜色
-const GLfloat BLOCK_MAT_SHININESS = 1.0f; //定义材质的光泽程度
+const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f };
+const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f };
+const GLfloat BLOCK_MAT_SPECULAR[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+const GLfloat BLOCK_MAT_EMISSION[] = { 0.3f, 0.3f, 0.3f, 0.3f };
+const GLfloat BLOCK_MAT_SHININESS = 1.0f;
 
 const char* MAP_FILE = "./data/map.dat";
