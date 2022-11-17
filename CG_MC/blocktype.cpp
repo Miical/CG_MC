@@ -80,7 +80,7 @@ void initTexture() {
     glMaterialf(GL_FRONT, GL_SHININESS, BLOCK_MAT_SHININESS);
 }
 
-const block_t BLOCK_TYPE_NUM = 70;
+const block_t BLOCK_TYPE_NUM = 71;
 const BlockBase* BLOCKS[BLOCK_TYPE_NUM + 1];
 
 /// <summary>
@@ -179,6 +179,7 @@ const block_t MUSHROOM = loadBoard(new Plant(38));
 const block_t RED_MUSHROOM = loadBoard(new Plant(37));
 const block_t YUAN_FLOWER = loadBoard(new Plant(71));
 const block_t GHOST = loadBoard(new Plant(72));
+const block_t TWO_MEOWS = loadBoard(new Plant(73));
 
 /// <summary>
 /// 导入材质。
