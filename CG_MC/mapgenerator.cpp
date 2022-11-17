@@ -27,8 +27,8 @@ void MapGenerator::getChunk(block_t* blocks, BlocksSet& outBlocks,
 /// </summary>
 /// <returns>高度值</returns>
 int MapGenerator::heightGenerate(int x, int y)const {
-	float cystalSize[3] = { 4.0f, 24.0f, 96.0f };
-	float weight[3] = { 0.05f, 0.30f, 0.65f };
+	float cystalSize[3] = { 4.0f, 32.0f, 96.0f };
+	float weight[3] = { 0.05f, 0.35f, 0.6f };
 	float maxHeight[3] = { WORLD_HEIGHT, WORLD_HEIGHT, WORLD_HEIGHT };
 	float height = 0.0f;
 	for (int i = 0; i < 3; i++)
@@ -37,6 +37,4 @@ int MapGenerator::heightGenerate(int x, int y)const {
 	return int(height);
 }
 
-
-const MapGenerator generator(0x234F248A);
 

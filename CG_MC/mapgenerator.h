@@ -9,10 +9,8 @@ public:
 	MapGenerator(unsigned int seed_);
 
 private:
-	unsigned int seed;
+	const unsigned int seed;
 	
 	int heightGenerate(int x, int y)const;
 };
-
-extern const MapGenerator generator;
 #endif 

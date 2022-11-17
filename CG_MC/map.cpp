@@ -7,6 +7,7 @@
 #include "map.h"
 #include "mapgenerator.h"
 
+const MapGenerator generator(0x234F248A);
 Map worldMap(INIT_POS[0], INIT_POS[1], INIT_POS[2]);
 
 /// <summary>
