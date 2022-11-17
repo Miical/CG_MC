@@ -1,5 +1,8 @@
 ﻿#include <fstream>
 #include <iostream>
+#include <windows.h>
+#include <vector>
+#include <algorithm>
 #include "blocktype.h"
 #include "map.h"
 #include "mapgenerator.h"
@@ -175,13 +178,15 @@ void MapBlock::modifyBlock(int x, int y, int z, block_t type) {
 			MapBlock* b = mapBlocks[getMapBlockID(posX + px, posY + py)];
 			auto it = b->display.find(
 				DisplayNode(posX + px, posY + py, pz, 0, 0));
+			if (it != b->display.end())
+				b->display.erase(it);
 			type = b->blocks[b->getIDwithAbsolutePos(posX + px, posY + py, pz)];
 
 			if (type == AIR) continue;
 			unsigned char mask = b->getRenderMask(
 				posX + px - b->getPosX(), posY + py - b->getPosY(), pz);
 			if (!mask) continue;
-			b->display.insert(DisplayNode(b->posX + px, b->posY + py, pz, mask, type));
+			b->display.insert(DisplayNode(posX + px, posY + py, pz, mask, type));
 		}
 	}
 }
@@ -264,6 +269,10 @@ void Map::changePos(int x, int y, int z) {
 /// 渲染整张地图。
 /// </summary>
 void Map::render()const {
+
+	// 保存所有需要显示的方块
+
+	std::vector<DisplayNode> blocks;
 	int lx = watchPosX - RENDER_RANGE / 2 * MAP_BLOCK_SIZE,
 		ly = watchPosY - RENDER_RANGE / 2 * MAP_BLOCK_SIZE;
 	int rx = lx + (RENDER_RANGE - 1) * MAP_BLOCK_SIZE,
@@ -272,14 +281,27 @@ void Map::render()const {
 		for (int y = ly; y <= ry; y += MAP_BLOCK_SIZE) {
 			MapBlock* b = mapBlocks.find(getMapBlockID(x, y))->second;
 			for (auto& node : b->getDisplaySet()) {
-				if (node.x == targetBlock.x && node.y == targetBlock.y
-					&& node.z == targetBlock.z)
-					BLOCKS[node.type]->renderTargetBlock(
-						node.x, node.y, node.z, node.mask);
-				else
-					BLOCKS[node.type]->render(node.x, node.y, node.z, node.mask);
+				blocks.push_back(node);
 			}
 		}
+	}
+
+	// 以正确顺序进行渲染，保证透明度渲染顺序需求
+
+	std::sort(blocks.begin(), blocks.end(),
+		[&](const DisplayNode& a, const DisplayNode& b) {
+			if (abs(a.z - watchPosZ) != abs(b.z - watchPosZ))
+				return abs(a.z - watchPosZ) > abs(b.z - watchPosZ);
+			return max(abs(a.x - watchPosX), abs(a.y - watchPosY)) > 
+				max(abs(b.x - watchPosX), abs(b.y - watchPosY));
+		});
+	for (auto& block : blocks) {
+		if (block.x == targetBlock.x && block.y == targetBlock.y
+			&& block.z == targetBlock.z)
+			BLOCKS[block.type]->renderTargetBlock(
+				block.x, block.y, block.z, block.mask);
+		else
+			BLOCKS[block.type]->render(block.x, block.y, block.z, block.mask);
 	}
 }
 
@@ -379,9 +401,9 @@ CompressedPos compressPos(int x, int y, int z) {
 ///	解压坐标 
 /// </summary>
 void decompressPos(CompressedPos pos, int& x, int& y, int& z) {
-	int x_ = pos % (1u << 28), 
-		y_ = pos / (1u << 28) % (1u << 28), 
-		z_ = pos / (1u << 56);
+	int x_ = pos % (1ull << 28), 
+		y_ = pos / (1ull << 28) % (1ull << 28), 
+		z_ = pos / (1ull << 56);
 	x = x_ - (1 << 27);
 	y = y_ - (1 << 27);
 	z = z_;

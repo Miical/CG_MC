@@ -26,7 +26,7 @@ const GLfloat FALLING_SPEED = 0.1f;
 const int WORLD_HEIGHT = 128;
 const int SEA_LEVEL = WORLD_HEIGHT / 2 - 2;
 const int MAP_BLOCK_SIZE = 6;
-const int RENDER_RANGE = 8; 
+const int RENDER_RANGE = 10; 
 
 const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 环境光颜色 
 const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 漫反射光颜色
