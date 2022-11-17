@@ -15,7 +15,7 @@ const GLfloat VX = 0.0f, VY = 0.0f, VZ = 1.0f;
 const GLfloat VISION = 0.08f;
 const GLfloat XW_MIN = -2.4f * VISION, YW_MIN = -1.4f * VISION, 
     XW_MAX = 2.4f * VISION, YW_MAX = 1.4f * VISION;
-const GLfloat D_NEAR = 0.20f, D_FAR = 100.0f;
+const GLfloat D_NEAR = 0.20f, D_FAR = 300.0f;
 
 extern const GLfloat STANDARD_FPS = 60.0f;
 const GLfloat SPEED_Z = 0.05f;
@@ -25,8 +25,8 @@ const GLfloat FALLING_SPEED = 0.1f;
 
 const int WORLD_HEIGHT = 128;
 const int SEA_LEVEL = WORLD_HEIGHT / 2 - 2;
-const int MAP_BLOCK_SIZE = 16;
-const int RENDER_RANGE = 3 * MAP_BLOCK_SIZE; 
+const int MAP_BLOCK_SIZE = 6;
+const int RENDER_RANGE = 8; 
 
 const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 环境光颜色 
 const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f }; // 漫反射光颜色

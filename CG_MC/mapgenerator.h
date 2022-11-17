@@ -4,7 +4,8 @@
 
 class MapGenerator {
 public:
-	void getChunk(block_t* blocks, int posX, int posY)const;
+	void getChunk(block_t* blocks, BlocksSet& outBlocks, 
+		int posX, int posY)const;
 	MapGenerator(unsigned int seed_);
 
 private:

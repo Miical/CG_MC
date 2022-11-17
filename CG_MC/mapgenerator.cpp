@@ -7,7 +7,8 @@
 
 MapGenerator::MapGenerator(unsigned int seed_) : seed(seed_) {}
 
-void MapGenerator::getChunk(block_t* blocks, int posX, int posY)const {
+void MapGenerator::getChunk(block_t* blocks, BlocksSet& outBlocks, 
+	int posX, int posY)const {
 	for (int x = 0; x < MAP_BLOCK_SIZE; x++) {
 		for (int y = 0; y < MAP_BLOCK_SIZE; y++) {
 			float h = heightGenerate(posX + x, posY + y);
