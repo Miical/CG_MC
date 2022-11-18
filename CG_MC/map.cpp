@@ -7,7 +7,8 @@
 #include "map.h"
 #include "mapgenerator.h"
 
-const MapGenerator generator(0x224248A);
+const char* MAP_FILE = "./data/map.dat";
+MapGenerator generator(0x22424833);
 Map worldMap(INIT_POS[0], INIT_POS[1], INIT_POS[2]);
 
 /// <summary>
@@ -28,11 +29,11 @@ MapBlock::MapBlock(int posX_, int posY_,
 	blocks = new block_t[totalSize];
 	
 	// 从地形生成器获取初始地图
-	generator.getChunk(blocks, outBlocks, posX, posY);
+	generator.getChunk(blocks, &outBlocks, posX, posY);
 
 	// outBlocks双向更新周边四个地图块
-	const int dx[4] = { MAP_BLOCK_SIZE, MAP_BLOCK_SIZE, 0, 0 };
-	const int dy[4] = { 0, 0, MAP_BLOCK_SIZE, MAP_BLOCK_SIZE };
+	const int dx[4] = { MAP_BLOCK_SIZE, -MAP_BLOCK_SIZE, 0, 0 };
+	const int dy[4] = { 0, 0, MAP_BLOCK_SIZE, -MAP_BLOCK_SIZE };
 	for (int i = 0; i < 4; i++) {
 		MapBlockID id = getMapBlockID(posX + dx[i], posY + dy[i]);
 		if (mapBlocks.find(id) == mapBlocks.end()) continue;

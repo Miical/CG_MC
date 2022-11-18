@@ -80,7 +80,7 @@ void initTexture() {
     glMaterialf(GL_FRONT, GL_SHININESS, BLOCK_MAT_SHININESS);
 }
 
-const block_t BLOCK_TYPE_NUM = 71;
+const block_t BLOCK_TYPE_NUM = 72;
 const BlockBase* BLOCKS[BLOCK_TYPE_NUM + 1];
 
 /// <summary>
@@ -133,8 +133,8 @@ const int SPRUCE_WOOD_TEXTURE[6] = { 129, 129, 129, 129, 214, 214 };
 const block_t SPRUCE_WOOD = loadBoard(new Block(SPRUCE_WOOD_TEXTURE));
 const int BRICH_WOOD_TEXTURE[6] = { 130, 130, 130, 130, 215, 215 };
 const block_t BRICH_WOOD = loadBoard(new Block(BRICH_WOOD_TEXTURE));
-const int JUNGLE_WOOD_WOOD_TEXTURE[6] = { 157, 157, 157, 157, 216, 216 };
-const block_t JUNGLE_WOOD_WOOD = loadBoard(new Block(JUNGLE_WOOD_WOOD_TEXTURE));
+const int JUNGLE_WOOD_TEXTURE[6] = { 157, 157, 157, 157, 216, 216 };
+const block_t JUNGLE_WOOD = loadBoard(new Block(JUNGLE_WOOD_TEXTURE));
 const int ACACIA_WOOD_TEXTURE[6] = { 217, 217, 217, 217, 218, 218 };
 const block_t ACACIA_WOOD = loadBoard(new Block(ACACIA_WOOD_TEXTURE));
 const int DARK_OAK_WOOD_TEXTURE[6] = { 219, 219, 219, 219, 220, 220 };
@@ -155,13 +155,15 @@ const int MELON_TEXTURE[6] = { 147, 147, 147, 147, 148, 148 };
 const block_t MELON = loadBoard(new Block(MELON_TEXTURE));
 const int PUMPKIN_TEXTURE[6] = { 132, 131, 131, 131, 109, 109 };
 const block_t PUMPKIN = loadBoard(new Block(PUMPKIN_TEXTURE));
+const block_t CACTUS = loadBoard(new Plant(85));
 const block_t WATER = loadBoard(new Water(233));
 const block_t LAVA = loadBoard(new Water(234));
 const block_t COBWEB = loadBoard(new Plant(12));
 const block_t GLASS = loadBoard(new Leaves(56));
-const block_t OAK_LEAVES = loadBoard(new Leaves(59));
-const block_t SPRUCE_LEAVES = loadBoard(new Leaves(144));
-const block_t BIRCH_LEAVES = loadBoard(new Leaves(103));
+const block_t OAK_LEAVES = loadBoard(new Block(60));
+const int SPRUCE_TEXTURE[6] = { 145, 145, 145, 145, 81, 145};
+const block_t SPRUCE_LEAVES = loadBoard(new Block(SPRUCE_TEXTURE));
+const block_t BIRCH_LEAVES = loadBoard(new Block(104));
 const block_t JUNGLE_LEAVES = loadBoard(new Block(169));
 const block_t GRASS_PLANT = loadBoard(new Plant(49));
 const block_t DANDELION = loadBoard(new Plant(14));

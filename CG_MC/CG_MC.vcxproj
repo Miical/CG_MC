@@ -139,7 +139,6 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="mapgenerator.cpp" />
     <ClCompile Include="noise.cpp" />
-    <ClCompile Include="setting.cpp" />
     <ClCompile Include="vector2D.cpp" />
     <ClCompile Include="vector3D.cpp" />
   </ItemGroup>

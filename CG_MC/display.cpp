@@ -7,6 +7,7 @@
 #include "setting.h"
 #include "inventory.h"
 
+GLint winWidth = 1200, winHeight = 700;
 int frameCount, timeBase;
 float FPS;
 
