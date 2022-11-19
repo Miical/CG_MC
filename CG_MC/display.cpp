@@ -3,6 +3,7 @@
 #include "inputprocess.h"
 #include "character.h"
 #include "display.h"
+#include "blocktype.h"
 #include "map.h"
 #include "setting.h"
 #include "inventory.h"
@@ -102,14 +103,30 @@ void setLight() {
     GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     GLfloat light_specular[] = { 0.0f, 0.0f, 0.0f, 0.0f };
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
     glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);
 
     float rate = sin(ag);
 	glClearColor(0.35 + 0.25 * rate, 
 		0.45 + 0.35 * rate, 
 		0.50 + 0.40 * rate, 0.0);
+
+    if (worldMap.getBlock(character.getPosX(), character.getPosY(),
+           character.getPosZ()) == WATER) {
+        glEnable(GL_FOG);
+		GLfloat fogColor[4] = { 0.35 + 0.25 * rate, 0.45 + 0.35 * rate,
+			0.50 + 0.40 * rate, 0.0 };
+		glFogi(GL_FOG_MODE, GL_EXP);
+		glFogfv(GL_FOG_COLOR, fogColor);
+		glFogf(GL_FOG_DENSITY, 0.1);
+		glHint(GL_FOG_HINT, GL_DONT_CARE);
+		glFogf(GL_FOG_START, 50.0);
+		glFogf(GL_FOG_END, 500.0);
+    }
+    else {
+        glDisable(GL_FOG);
+    }
 }
 
 void displayFcn() {
