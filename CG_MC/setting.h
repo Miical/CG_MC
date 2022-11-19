@@ -34,7 +34,7 @@ const GLfloat FALLING_SPEED = 0.12f;
 const int WORLD_HEIGHT = 96;
 const int SEA_LEVEL = WORLD_HEIGHT / 2 - 2;
 const int MAP_BLOCK_SIZE = 6;
-const int RENDER_RANGE = 10; 
+extern int RENDER_RANGE;
 
 const GLfloat BLOCK_MAT_AMBIENT[] = { 0.9f, 0.9f, 0.9f, 0.9f };
 const GLfloat BLOCK_MAT_DIFFUSE[] = { 0.9f, 0.9f, 0.9f, 0.9f };

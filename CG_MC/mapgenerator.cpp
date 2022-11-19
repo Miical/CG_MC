@@ -231,7 +231,7 @@ void MapGenerator::vegetationGeneration() {
 					blocks[MapBlock::getID(x, y, h)] = CACTUS;
 				break;
 			case Biome::RainForest: {
-				if (rand() % 6 < 1)
+				if (rand() % 4 < 1)
 					putTree(JUNGLE, x, y, h);
 				else {
 					const int num = 13;
@@ -242,8 +242,8 @@ void MapGenerator::vegetationGeneration() {
 						PINK_TULIP, OXEYE_DAISY, SUNFLOWER, YUAN_FLOWER
 					};
 
-					const float P[num] = { 0.76, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 
-						0.02, 0.02, 0.02, 0.02, 0.02, 0.02 };
+					const float P[num] = { 0.64, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03, 
+						0.03, 0.03, 0.03, 0.03, 0.03, 0.03 };
 					for (int i = 0, t = rand() % 100 + 1; i < num; i++) {
 						t -= P[i] * 100;
 						if (t <= 0) {

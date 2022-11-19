@@ -82,6 +82,20 @@ void keyboardFunc(unsigned char key, int x, int y) {
 	case 27:
 		releaseMouse();
 		break;
+	case '+':
+		if (RENDER_RANGE < 100) {
+			RENDER_RANGE++;
+			worldMap.changePos(
+				character.getPosX(), character.getPosY(), character.getPosZ());
+		}
+		break;
+	case '-':
+		if (RENDER_RANGE > 1) {
+			RENDER_RANGE--;
+			worldMap.changePos(
+				character.getPosX(), character.getPosY(), character.getPosZ());
+		}
+		break;
 	case '~':
 		exit(0);
 		break;
