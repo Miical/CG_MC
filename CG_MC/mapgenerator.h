@@ -10,10 +10,10 @@ class MapGenerator {
 public:
 	void getChunk(block_t* blocks_, BlocksSet* outBlocks_, 
 		int posX_, int posY_);
-	MapGenerator(unsigned int seed_);
+	MapGenerator();
 
 private:
-	const unsigned int seed;
+	unsigned int seed;
 	
 	void heightGeneration();
 	void biomeGeneration();
@@ -21,6 +21,7 @@ private:
 	void vegetationGeneration();
 	void putBlock(int x, int y, int z, block_t type);
 	void putTree(const int tree[2], int x, int y, int z);
+	void loadSeed();
 
 	int posX, posY;
 	block_t* blocks;

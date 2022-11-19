@@ -1,11 +1,14 @@
 ﻿#include <cstdlib>
 #include <windows.h>
+#include <iostream>
+#include <fstream>
 #include "blocktype.h"
 #include "map.h"
 #include "mapgenerator.h"
 #include "noise.h"
+const char* SEED_FILE = "./data/seed.txt";
 
-MapGenerator::MapGenerator(unsigned int seed_) : seed(seed_) {}
+MapGenerator::MapGenerator() { loadSeed(); }
 
 void MapGenerator::getChunk(block_t* blocks_, BlocksSet* outBlocks_, 
 	int posX_, int posY_){
@@ -63,17 +66,17 @@ void MapGenerator::biomeGeneration() {
 					biomes[x - posX][y - posY] = Biome::Snow;
 			}
 			else if (temperature_ < 0.55) {
-				if (0.50 <= temperature_ && humidity_ > 0.5) 
+				if (0.48 <= temperature_ && humidity_ > 0.5) 
 					biomes[x - posX][y - posY] = Biome::Forest;
 				else 
 					biomes[x - posX][y - posY] = Biome::Grassland;
 			}
 			else {
-				if (humidity_ < 0.35)
+				if (humidity_ < 0.37)
 					biomes[x - posX][y - posY] = Biome::SP;
-				else if (humidity_ < 0.47)
+				else if (humidity_ < 0.48)
 					biomes[x - posX][y - posY] = Biome::Desert;
-				else if (humidity_ < 0.5)
+				else if (humidity_ < 0.52)
 					biomes[x - posX][y - posY] = Biome::Grassland;
 				else
 					biomes[x - posX][y - posY] = Biome::RainForest;
@@ -310,4 +313,22 @@ void MapGenerator::putTree(const int tree[2], int x, int y, int z) {
 
 	for (int i = 0; i < trunkHeight; i++)
 		putBlock(x, y, z + i, tree[0]);
+}
+
+/// <summary>
+/// 从文件中读取种子。
+/// </summary>
+void MapGenerator::loadSeed() {
+	using namespace std;
+	fstream fin;
+	fin.open(SEED_FILE, fstream::in);
+	if (!fin.is_open()) {
+		cerr << "Load failed! Can't open file '" << SEED_FILE << "'.\n";
+		exit(0);
+	}
+	if (!(fin >> seed)) {
+		cerr << "Load failed! Error when read file '" << SEED_FILE << "'.\n";
+		exit(0);
+	}
+	fin.close();
 }

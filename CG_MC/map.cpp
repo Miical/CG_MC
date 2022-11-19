@@ -9,7 +9,7 @@
 
 const char* MAP_FILE = "./data/map.dat";
 int RENDER_RANGE = 10;
-MapGenerator generator(0x5B9FC2D4);
+MapGenerator generator;
 Map worldMap(INIT_POS[0], INIT_POS[1], INIT_POS[2]);
 
 /// <summary>
