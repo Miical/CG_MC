@@ -29,7 +29,7 @@ const GLfloat STANDARD_FPS = 60.0f;
 const GLfloat SPEED_Z = 0.05f;
 const GLfloat WALK_SPEED = 0.08f;
 const GLfloat MOUSE_SPEED = 1.5f;
-const GLfloat FALLING_SPEED = 0.1f;
+const GLfloat FALLING_SPEED = 0.12f;
 
 const int WORLD_HEIGHT = 96;
 const int SEA_LEVEL = WORLD_HEIGHT / 2 - 2;

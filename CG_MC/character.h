@@ -23,7 +23,7 @@ public:
 	void upOrDown(float dist, Map& world);
 	void perspectiveChange(float deltaX, float deltaY);
 	void walk(float dist, int direct, Map& world);
-	void jump(Map& world);
+	void jump(Map& world, float speedRatio);
 	bool autoJump(Map& world);
 
 	void idleStateProcessing(Map& world, float speedRatio);

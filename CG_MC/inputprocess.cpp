@@ -73,7 +73,7 @@ void keyboardFunc(unsigned char key, int x, int y) {
 	case ' ':
 		if (!inventory.getBlockListStatus()) {
 			if (!character.isJumping())
-				character.jump(worldMap);
+				character.jump(worldMap, speedRatio);
 		}
 		break;
 	case 19:

@@ -83,8 +83,9 @@ void Character::walk(float dist, int direct, Map& world) {
 		autoJump(world);
 }
 
-void Character::jump(Map& world) {
-	if (!legalPos(pos[0], pos[1], pos[2] - 0.1f, world))
+void Character::jump(Map& world, float speedRatio) {
+	if (!legalPos(pos[0], pos[1], 
+		pos[2] - FALLING_SPEED * speedRatio - 0.05, world))
 		jumping = 13.0;
 }
 
