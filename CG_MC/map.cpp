@@ -8,7 +8,7 @@
 #include "mapgenerator.h"
 
 const char* MAP_FILE = "./data/map.dat";
-MapGenerator generator(0x22424833);
+MapGenerator generator(0x333FF234);
 Map worldMap(INIT_POS[0], INIT_POS[1], INIT_POS[2]);
 
 /// <summary>

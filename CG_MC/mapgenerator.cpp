@@ -172,6 +172,12 @@ void MapGenerator::terrainGeneration() {
 /// 植被生成。
 /// </summary>
 void MapGenerator::vegetationGeneration() {
+	static const int OAK[2] = { OAK_WOOD, OAK_LEAVES };
+	static const int SPRUCE[2] = { SPRUCE_WOOD, SPRUCE_LEAVES };
+	static const int BIRCH[2] = { OAK_WOOD, BIRCH_LEAVES };
+	static const int JUNGLE[2] = { JUNGLE_WOOD, JUNGLE_LEAVES };
+	static const int SP_TREE[2] = { JUNGLE_WOOD, TWO_MEOWS };
+
 	float c[4] = { 0.1, 0.5, 0.35, 0.05 };
 	for (int x = 0; x < MAP_BLOCK_SIZE; x++) {
 		for (int y = 0; y < MAP_BLOCK_SIZE; y++) {

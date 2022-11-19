@@ -6,12 +6,6 @@ enum class Biome{
 	Grassland, Snow, Desert, RainForest, Forest, ColdForest, SP
 };
 
-const int OAK[2] = { OAK_WOOD, OAK_LEAVES };
-const int SPRUCE[2] = { SPRUCE_WOOD, SPRUCE_LEAVES };
-const int BIRCH[2] = { OAK_WOOD, BIRCH_LEAVES };
-const int JUNGLE[2] = { JUNGLE_WOOD, JUNGLE_LEAVES };
-const int SP_TREE[2] = { JUNGLE_WOOD, TWO_MEOWS };
-
 class MapGenerator {
 public:
 	void getChunk(block_t* blocks_, BlocksSet* outBlocks_, 
