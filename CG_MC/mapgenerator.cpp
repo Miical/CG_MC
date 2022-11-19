@@ -43,39 +43,44 @@ void MapGenerator::heightGeneration() {
 /// 生成生物群落类型。
 /// </summary>
 void MapGenerator::biomeGeneration() {
-	const float cystalSize[2] = { 192.0f, 96.0f };
+	const float cystalSize[2] = { 256.0f, 192.0f };
 
 	for (int x = posX; x < posX + MAP_BLOCK_SIZE; x++) {
 		for (int y = posY; y < posY + MAP_BLOCK_SIZE; y++) {
 			float temperature_ = perlin(Point2D(x / cystalSize[0], y / cystalSize[0]), seed / 3);
+			temperature_ += (rand() % 10 / 1000.0f - 0.005f);
+			temperature_ = min(max(temperature_, 0.0f), 1.0f);
 			float humidity_ = perlin(Point2D(x / cystalSize[0], y / cystalSize[0]), seed / 2);
+			humidity_ += (rand() % 10 / 1000.0f - 0.005f);
+			humidity_ = min(max(humidity_, 0.0f), 1.0f);
 			temperature[x - posX][y - posY] = temperature_;
 			humidity[x - posX][y - posY] = humidity_;
 
 			if (temperature_ < 0.45) {
-				if (humidity_ < 0.5)
-					biomes[x - posX][y - posY] = Biome::Snow;
-				else
+				if (temperature_ < 0.4 && humidity_ >= 0.5) 
 					biomes[x - posX][y - posY] = Biome::ColdForest;
+				else 
+					biomes[x - posX][y - posY] = Biome::Snow;
 			}
 			else if (temperature_ < 0.55) {
-				if (humidity_ < 0.5)
-					biomes[x - posX][y - posY] = Biome::Grassland;
-				else
+				if (0.50 <= temperature_ && humidity_ > 0.5) 
 					biomes[x - posX][y - posY] = Biome::Forest;
+				else 
+					biomes[x - posX][y - posY] = Biome::Grassland;
 			}
 			else {
-				if (humidity_ < 0.4)
+				if (humidity_ < 0.35)
 					biomes[x - posX][y - posY] = Biome::SP;
-				else if (humidity_ < 0.5)
+				else if (humidity_ < 0.47)
 					biomes[x - posX][y - posY] = Biome::Desert;
+				else if (humidity_ < 0.5)
+					biomes[x - posX][y - posY] = Biome::Grassland;
 				else
 					biomes[x - posX][y - posY] = Biome::RainForest;
 			}
 		}
 	}
 }
-
 
 /// <summary>
 /// 生成地形。
@@ -184,7 +189,7 @@ void MapGenerator::vegetationGeneration() {
 			case Biome::Snow:
 				break;
 			case Biome::ColdForest:
-				if (rand() % 8 < 1)
+				if (rand() % 7 < 1)
 					putTree(SPRUCE, x, y, h);
 				break;
 			case Biome::Grassland:
@@ -220,7 +225,7 @@ void MapGenerator::vegetationGeneration() {
 					blocks[MapBlock::getID(x, y, h)] = CACTUS;
 				break;
 			case Biome::RainForest: {
-				if (rand() % 7 < 1)
+				if (rand() % 6 < 1)
 					putTree(JUNGLE, x, y, h);
 				else {
 					const int num = 13;
@@ -231,8 +236,8 @@ void MapGenerator::vegetationGeneration() {
 						PINK_TULIP, OXEYE_DAISY, SUNFLOWER, YUAN_FLOWER
 					};
 
-					const float P[num] = { 0.88, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 
-						0.01, 0.01, 0.01, 0.01, 0.01, 0.01 };
+					const float P[num] = { 0.76, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 
+						0.02, 0.02, 0.02, 0.02, 0.02, 0.02 };
 					for (int i = 0, t = rand() % 100 + 1; i < num; i++) {
 						t -= P[i] * 100;
 						if (t <= 0) {
